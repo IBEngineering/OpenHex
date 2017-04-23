@@ -1,0 +1,66 @@
+apply plugin: 'java'
+//apply plugin: 'application'
+apply plugin: 'eclipse'
+//apply plugin: 'idea'
+
+repositories {
+    jcenter()
+    
+    //Uncomment this if you install local dependencies.
+    //mavenLocal()
+
+    //Uncomment this if you use external dependencies
+    //mavenCentral()
+
+    //Uncomment this if you use jme3-niftygui
+    //maven{url 'http://nifty-gui.sourceforge.net/nifty-maven-repo'}
+}
+
+ext.jmeVersion = "3.1.0-stable"
+
+dependencies {
+    
+    compile "org.jmonkeyengine:jme3-core:$jmeVersion"
+    compile "org.jmonkeyengine:jme3-desktop:$jmeVersion"
+    compile "org.jmonkeyengine:jme3-lwjgl:$jmeVersion"
+
+    //Those are jme3 additional library uncomment the ones you need
+    //compile "org.jmonkeyengine:jme3-android-native:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-android:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-bullet-native-android:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-blender:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-bullet-native:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-bullet:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-effects:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-jogg:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-jogl:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-lwjgl3:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-networking:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-plugins:$jmeVersion"
+    //compile "org.jmonkeyengine:jme3-terrain:$jmeVersion"
+    
+    //You need to uncomment nifty repository in the repositories section if you use this dependency
+    //compile "org.jmonkeyengine:jme3-niftygui:$jmeVersion"
+    
+    testCompile "junit:junit:4.11"  // Or whatever version
+}
+
+jar {
+  	manifest {
+    	attributes(
+      		'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      		'Main-Class': 'openhex.run.Test'
+    	)
+ 	}
+}
+
+sourceSets {
+	main {
+        java {
+            srcDirs = ['src/main/java', 'src/run/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
