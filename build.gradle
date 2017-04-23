@@ -57,6 +57,7 @@ jar {
 sourceSets {
 	main {
         java {
+        	//remove 'src/run/java' to not compile run source lib
             srcDirs = ['src/main/java', 'src/run/java']
         }
         resources {
