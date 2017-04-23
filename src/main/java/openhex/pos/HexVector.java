@@ -1,5 +1,8 @@
 package openhex.pos;
 
+import openhex.pos.at.VectorData;
+
+@VectorData(dimensions = 3)
 public class HexVector extends Vector<Integer> {
 
 	public int x,y,z = 0;

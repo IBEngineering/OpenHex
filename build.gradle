@@ -1,7 +1,9 @@
 apply plugin: 'java'
-//apply plugin: 'application'
+apply plugin: 'application'
 apply plugin: 'eclipse'
-//apply plugin: 'idea'
+apply plugin: 'idea'
+
+mainClassName='openhex.run.Test'
 
 repositories {
     jcenter()
@@ -16,7 +18,7 @@ repositories {
     //maven{url 'http://nifty-gui.sourceforge.net/nifty-maven-repo'}
 }
 
-ext.jmeVersion = "3.1.0-stable"
+ext.jmeVersion = "[3.1,)"
 
 dependencies {
     
@@ -42,26 +44,54 @@ dependencies {
     //You need to uncomment nifty repository in the repositories section if you use this dependency
     //compile "org.jmonkeyengine:jme3-niftygui:$jmeVersion"
     
-    testCompile "junit:junit:4.11"  // Or whatever version
+    //runtime project(':assets')
 }
 
-jar {
-  	manifest {
-    	attributes(
-      		'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      		'Main-Class': 'openhex.run.Test'
-    	)
- 	}
+task wrapper(type: Wrapper) {
+}
+
+task createDirs << {
+	def pkg = 'openhex'
+    	def dirs = [
+        	file("./src/main/java/$pkg"),
+		file("./src/main/resources"),
+		file("./assets/Interface"),
+		file("./assets/MatDefs"),
+		file("./assets/Materials"),
+		file("./assets/Models"),
+		file("./assets/Scenes"),
+		file("./assets/Shaders"),
+		file("./assets/Sounds"),
+		file("./assets/Textures"),
+    	]
+
+	dirs.each {
+        	if( !it.exists() ) {
+            		println "Creating " + it
+            		it.mkdirs()
+        	}
+        	if( it.listFiles().length == 0 ) {
+            		def stub = new File(it, 'removeme.txt')
+            		println "Creating stub file to allow git checkin, file:$stub"
+            		stub.text = "Remove me when there are files here."
+       		}
+    	}
 }
 
 sourceSets {
 	main {
-        java {
-        	//remove 'src/run/java' to not compile run source lib
-            srcDirs = ['src/main/java', 'src/run/java']
-        }
-        resources {
-            srcDirs = ['src/main/resources']
-        }
-    }
+		java {
+			srcDir 'src/main/java'
+			srcDir 'src/run/java'
+		}
+	}
+}
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'openhex.run.Test'
+    )
+  }
 }
