@@ -26,6 +26,8 @@ dependencies {
     compile "org.jmonkeyengine:jme3-desktop:$jmeVersion"
     compile "org.jmonkeyengine:jme3-lwjgl:$jmeVersion"
 
+	compile "com.simsilica:zay-es:1.2.1"
+
     //Those are jme3 additional library uncomment the ones you need
     //compile "org.jmonkeyengine:jme3-android-native:$jmeVersion"
     //compile "org.jmonkeyengine:jme3-android:$jmeVersion"

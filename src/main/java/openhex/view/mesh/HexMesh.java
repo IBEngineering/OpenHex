@@ -4,8 +4,6 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import openhex.pos.Vectors;
-
 /**
  * 
  * @author MisterCavespider
@@ -37,7 +35,7 @@ public class HexMesh extends DynaMesh {
 	}
 
 	protected Vector2f calcHexVertex(int corner) {
-		float angle = 2*FastMath.PI/6f * corner;
+		float angle = 2*FastMath.PI/6f * corner + 2*FastMath.PI/12f;
         float x = radius * FastMath.sin(angle);
         float y = radius * FastMath.cos(angle);
         Vector2f r = new Vector2f(x, y);
