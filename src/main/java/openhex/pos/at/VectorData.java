@@ -9,6 +9,8 @@ import openhex.pos.Vector;
 @Retention(RUNTIME)
 public @interface VectorData {
 
+	public static final int DIMENSION_INVALID = -1;
+	
 	/**
 	 * In what dimensions the {@link Vector} works.
 	 * 0 stands for no dimensions (default), while -1
