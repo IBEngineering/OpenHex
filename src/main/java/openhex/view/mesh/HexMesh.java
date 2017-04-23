@@ -38,16 +38,18 @@ public class HexMesh extends DynaMesh {
 
 	protected Vector2f calcHexVertex(int corner) {
 		float angle = 2*FastMath.PI/6f * corner;
-        
         float x = radius * FastMath.sin(angle);
         float y = radius * FastMath.cos(angle);
         Vector2f r = new Vector2f(x, y);
+        
+        
         
         return r;
 	}
 	
 	protected Vector3f calcHexVertexSpace(int corner) {
-		return Vectors.toVector3f(calcHexVertex(corner), 0);
+		Vector2f o = calcHexVertex(corner);
+		return new Vector3f(o.x, 0, o.y);
 	}
 	
 	@Override
