@@ -10,6 +10,7 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.simsilica.es.Entity;
 import com.simsilica.es.EntityData;
@@ -18,11 +19,11 @@ import com.simsilica.es.EntitySet;
 
 import openhex.es.HexTile;
 import openhex.es.ResourceDescriptor;
+import openhex.es.ResourceTypes;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
 import openhex.pos.HexVector;
 import openhex.pos.Vectors;
-import openhex.view.mesh.HexMesh;
 
 public class RenderState extends BaseAppState {
 	
@@ -87,17 +88,10 @@ public class RenderState extends BaseAppState {
 		}
 		
 		if(eventEntitySet.applyChanges()) {
-			for(Entity added : eventEntitySet.getAddedEntities()) {
-				System.out.println("Processing added event entities...");
-				ResourceDescriptor r = added.get(ResourceDescriptor.class);
-				
-				changeColor(r);
-			}
-			
-			for(Entity changed : eventEntitySet.getChangedEntities()) {
+			for(Entity picked : eventEntitySet.getAddedEntities()) {
 				System.out.println("Processing changed event entities...");
-				Game.get().getTileEntityData().removeComponent(changed.getId(), PickingEvent.class);
-				ResourceDescriptor r = changed.get(ResourceDescriptor.class);
+				Game.get().getTileEntityData().removeComponent(picked.getId(), PickingEvent.class);
+				ResourceDescriptor r = picked.get(ResourceDescriptor.class);
 				
 				changeColor(r);
 			}
@@ -105,8 +99,13 @@ public class RenderState extends BaseAppState {
 	}
 
 	private void draw(ResourceDescriptor r) {
-		Geometry geom = new Geometry("Hex", new HexMesh(1f));
-		geom.setMaterial(getMaterial());
+		Mesh mesh = r.getMesh(ResourceTypes.MESH);
+		ColorRGBA color = r.getColor(ResourceTypes.COLOR);
+		
+		Geometry geom = new Geometry("Hex", mesh);
+		Material mat = getMaterial();
+		mat.setColor("Color", color);
+		geom.setMaterial(mat);
 		((SimpleApplication)getApplication()).getRootNode().attachChild(geom);
 		hexTileSpatial.put(r, geom);
 	}
