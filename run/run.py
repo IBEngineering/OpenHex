@@ -8,7 +8,7 @@ def call():
     """
     print(platform.system())
     if platform.system() == 'Linux':
-        callLinux
+        callLinux()
     elif platform.system() == 'Windows':
         callWindows()
 
