@@ -1,7 +1,7 @@
 package openhex.run;
 
 import openhex.game.Game;
-import openhex.pos.Vector;
+import openhex.vec.Vector;
 import openhex.view.ViewApplication;
 
 public class Test {

@@ -1,6 +1,6 @@
-package openhex.pos.fin;
+package openhex.vec.fin;
 
-import openhex.pos.CubeHexVector;
+import openhex.vec.CubeHexVector;
 
 public final class VectorCD extends CubeHexVector<Float> {
 	public VectorCD(Float q, Float r, Float s, Float h) {

@@ -1,7 +1,7 @@
-package openhex.pos;
+package openhex.vec;
 
-import openhex.pos.at.VectorData;
 import openhex.util.math.GenericMath;
+import openhex.vec.at.VectorData;
 
 @VectorData(dimensions = 4)
 public abstract class CubeHexVector<N extends Number> extends Vector<N> {

@@ -1,6 +1,6 @@
-package openhex.pos;
+package openhex.vec;
 
-import openhex.pos.at.VectorData;
+import openhex.vec.at.VectorData;
 
 @Deprecated
 @VectorData(dimensions = 3)

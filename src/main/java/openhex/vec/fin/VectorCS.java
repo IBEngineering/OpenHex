@@ -1,6 +1,6 @@
-package openhex.pos.fin;
+package openhex.vec.fin;
 
-import openhex.pos.CubeHexVector;
+import openhex.vec.CubeHexVector;
 
 public final class VectorCS extends CubeHexVector<Integer> {
 	public VectorCS(Integer q, Integer r, Integer s, Integer h) {

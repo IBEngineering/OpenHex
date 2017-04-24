@@ -1,6 +1,6 @@
-package openhex.pos;
+package openhex.vec;
 
-import openhex.pos.at.VectorData;
+import openhex.vec.at.VectorData;
 
 @VectorData(dimensions = 3)
 public class AxialHexVector<N extends Number> extends Vector<N> {

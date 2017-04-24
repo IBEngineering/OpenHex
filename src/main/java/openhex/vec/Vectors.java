@@ -1,10 +1,10 @@
-package openhex.pos;
+package openhex.vec;
 
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import openhex.pos.at.VectorData;
-import openhex.pos.fin.VectorAS;
+import openhex.vec.at.VectorData;
+import openhex.vec.fin.VectorAS;
 
 /**
  * 

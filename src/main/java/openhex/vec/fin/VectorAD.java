@@ -1,6 +1,6 @@
-package openhex.pos.fin;
+package openhex.vec.fin;
 
-import openhex.pos.AxialHexVector;
+import openhex.vec.AxialHexVector;
 
 public final class VectorAD extends AxialHexVector<Float> {
 	public VectorAD(Float q, Float r, Float h) {

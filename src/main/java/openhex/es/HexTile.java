@@ -2,7 +2,7 @@ package openhex.es;
 
 import com.simsilica.es.EntityComponent;
 
-import openhex.pos.fin.VectorAS;
+import openhex.vec.fin.VectorAS;
 
 public class HexTile implements EntityComponent {
 	

@@ -1,6 +1,6 @@
-package openhex.pos.fin;
+package openhex.vec.fin;
 
-import openhex.pos.AxialHexVector;
+import openhex.vec.AxialHexVector;
 
 public final class VectorAS extends AxialHexVector<Integer> {
 	public VectorAS(Integer q, Integer r, Integer h) {

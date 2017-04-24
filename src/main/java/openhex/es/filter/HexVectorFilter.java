@@ -4,7 +4,7 @@ import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityComponent;
 
 import openhex.es.HexTile;
-import openhex.pos.fin.VectorAS;
+import openhex.vec.fin.VectorAS;
 
 public class HexVectorFilter implements ComponentFilter<HexTile> {
 

@@ -1,10 +1,10 @@
-package openhex.pos.at;
+package openhex.vec.at;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 
-import openhex.pos.Vector;
+import openhex.vec.Vector;
 
 @Retention(RUNTIME)
 public @interface VectorData {

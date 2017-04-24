@@ -40,8 +40,6 @@ public class HexMesh extends DynaMesh {
         float y = radius * FastMath.cos(angle);
         Vector2f r = new Vector2f(x, y);
         
-        
-        
         return r;
 	}
 	
@@ -55,11 +53,11 @@ public class HexMesh extends DynaMesh {
 		Vector2f[] tex = new Vector2f[7];
         
         //First vertex is in the middle
-        tex[0] = Vector2f.ZERO;
+        tex[0] = new Vector2f(.5f, .5f);
         
         //The rest goes through another method
         for(int i=0; i<6; i++) {
-            tex[i+1] = calcHexVertex(i);
+            tex[i+1] = calcHexVertex(i).addLocal(1f, 1f).divideLocal(2f);
         }
         
         texCoords = tex;

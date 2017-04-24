@@ -17,8 +17,8 @@ import com.simsilica.es.EntityId;
 import openhex.es.filter.HexVectorFilter;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
-import openhex.pos.Vectors;
-import openhex.pos.fin.VectorAS;
+import openhex.vec.Vectors;
+import openhex.vec.fin.VectorAS;
 
 public class InputState extends BaseAppState implements ActionListener {
 

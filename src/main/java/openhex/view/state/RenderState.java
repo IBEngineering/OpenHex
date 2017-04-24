@@ -22,8 +22,8 @@ import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
-import openhex.pos.Vectors;
-import openhex.pos.fin.VectorAS;
+import openhex.vec.Vectors;
+import openhex.vec.fin.VectorAS;
 
 public class RenderState extends BaseAppState {
 	
@@ -139,7 +139,7 @@ public class RenderState extends BaseAppState {
 
 	public Material getMaterial() {
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.randomColor());
+		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("Textures/Tiles/tiles.jpg"));
 		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		return mat;
 	}
