@@ -1,6 +1,7 @@
 package openhex.pos;
 
 import openhex.pos.at.VectorData;
+import openhex.util.math.GenericMath;
 
 @VectorData()	//No dimension, Float
 public abstract class Vector<N extends Number> {
@@ -69,46 +70,13 @@ public abstract class Vector<N extends Number> {
 	/*
 	 * CONVERSION
 	 */
-	protected N[] genericArray(int l) {
-		if(nClass == Integer.class) 	{	return (N[])new Integer[l];	}
-		else if(nClass == Long.class) 	{	return (N[])new Long[l];	}
-		else if(nClass == Short.class)	{	return (N[])new Short[l];	}
-		else if(nClass == Byte.class) 	{	return (N[])new Byte[l];	}
-		else if(nClass == Float.class)	{	return (N[])new Float[l];	}
-		else							{	return (N[])new Double[l];	}
-	}
 	
-	protected N genericAdd(Number a, Number b) {
-		if(nClass == Integer.class) 	{	return (N)(Integer)(a.intValue()+b.intValue());	}
-		else if(nClass == Long.class) 	{	return (N)(Long)(a.longValue()+b.longValue());	}
-		else if(nClass == Short.class)	{	return (N)(Integer)(a.shortValue()+b.shortValue());	}	//!
-		else if(nClass == Byte.class) 	{	return (N)(Integer)(a.byteValue()+b.byteValue());	}	//!
-		else if(nClass == Float.class)	{	return (N)(Float)(a.floatValue()+b.floatValue());	}
-		else							{	return (N)(Double)(a.doubleValue()+b.doubleValue());}
-	}
 	
-	protected N genericMult(Number a, Number b) {
-		if(nClass == Integer.class) 	{	return (N)(Integer)(a.intValue()*b.intValue());	}
-		else if(nClass == Long.class) 	{	return (N)(Long)(a.longValue()*b.longValue());	}
-		else if(nClass == Short.class)	{	return (N)(Integer)(a.shortValue()*b.shortValue());	}	//!
-		else if(nClass == Byte.class) 	{	return (N)(Integer)(a.byteValue()*b.byteValue());	}	//!
-		else if(nClass == Float.class)	{	return (N)(Float)(a.floatValue()*b.floatValue());	}
-		else							{	return (N)(Double)(a.doubleValue()*b.doubleValue());}
-	}
 	
-	protected N genericDiv(Number a, Number b) {
-		//idea:
-		//if(values[0] instanceof Integer) {
-		//	
-		//}
-		
-		if(nClass == Integer.class) 	{	return (N)(Integer)(a.intValue()/b.intValue());	}
-		else if(nClass == Long.class) 	{	return (N)(Long)(a.longValue()/b.longValue());	}
-		else if(nClass == Short.class)	{	return (N)(Integer)(a.shortValue()/b.shortValue());	}	//!
-		else if(nClass == Byte.class) 	{	return (N)(Integer)(a.byteValue()/b.byteValue());	}	//!
-		else if(nClass == Float.class)	{	return (N)(Float)(a.floatValue()/b.floatValue());	}
-		else							{	return (N)(Double)(a.doubleValue()/b.doubleValue());}
-	}
+	
+	
+	
+	
 	
 	public void checkType() {
 		if(nClass == Integer.class) 	{	System.out.println("Integer!");	}
@@ -133,9 +101,9 @@ public abstract class Vector<N extends Number> {
 			return null;
 		}
 		
-		N[] r = genericArray(values.length);
+		N[] r = GenericMath.genericArray(nClass, values.length);
 		for(int i = 0; i<values.length; i++) {
-			r[i] = genericAdd(getValues()[i], v.getValues()[i]);
+			r[i] = GenericMath.genericAdd(nClass, getValues()[i], v.getValues()[i]);
 		}
 		
 		return new DefaultVector<N>(r);
@@ -152,12 +120,9 @@ public abstract class Vector<N extends Number> {
 			return null;
 		}
 		
-		N[] r = genericArray(values.length);
 		for(int i = 0; i<values.length; i++) {
-			r[i] = genericAdd(getValues()[i], v.getValues()[i]);
+			getValues()[i] = GenericMath.genericAdd(nClass, getValues()[i], v.getValues()[i]);
 		}
-		
-		values = r;
 		
 		return this;
 	}
@@ -186,9 +151,9 @@ public abstract class Vector<N extends Number> {
 			return null;
 		}
 		
-		N[] r = genericArray(values.length);
+		N[] r = GenericMath.genericArray(nClass, values.length);
 		for(int i = 0; i<values.length; i++) {
-			r[i] = genericMult(getValues()[i], v.getValues()[i]);
+			r[i] = GenericMath.genericMult(nClass, getValues()[i], v.getValues()[i]);
 		}
 		
 		return new DefaultVector<N>(r);
@@ -200,7 +165,7 @@ public abstract class Vector<N extends Number> {
 		}
 		
 		for(int i = 0; i<values.length; i++) {
-			getValues()[i] = genericMult(getValues()[i], v.getValues()[i]);
+			getValues()[i] = GenericMath.genericMult(nClass, getValues()[i], v.getValues()[i]);
 		}
 		
 		return this;
@@ -219,10 +184,10 @@ public abstract class Vector<N extends Number> {
 	 * @return	A new Vector
 	 */
 	public Vector<N> negate() {
-		N[] r = genericArray(values.length);
+		N[] r = GenericMath.genericArray(nClass, values.length);
 		
 		for (int i = 0; i < values.length; i++) {
-			r[i] = genericAdd(-1, getValues()[i]);
+			r[i] = GenericMath.genericSubtract(nClass, 0, values[i]);	// 0-a  = -a
 		}
 		
 		return new DefaultVector<N>(r);
@@ -234,7 +199,7 @@ public abstract class Vector<N extends Number> {
 	 */
 	public Vector<N> negateLocal() {
 		for (int i = 0; i < values.length; i++) {
-			getValues()[i] = genericAdd(-1, getValues()[i]);
+			getValues()[i] = GenericMath.genericSubtract(nClass, 0, getValues()[i]);
 		}
 		
 		return this;
@@ -245,10 +210,10 @@ public abstract class Vector<N extends Number> {
 	 * @return
 	 */
 	public Vector<N> inverse() {		
-		N[] r = genericArray(values.length);
+		N[] r = GenericMath.genericArray(nClass, values.length);
 		
 		for (int i = 0; i < values.length; i++) {
-			r[i] = genericDiv(1, getValues()[i]);
+			r[i] = GenericMath.genericDiv(nClass, 1, getValues()[i]);
 		}
 		
 		return new DefaultVector<N>(r);
@@ -260,7 +225,7 @@ public abstract class Vector<N extends Number> {
 	 */
 	public Vector<N> inverseLocal() {
 		for (int i = 0; i < values.length; i++) {
-			getValues()[i] = genericDiv(1, getValues()[i]);
+			getValues()[i] = GenericMath.genericDiv(nClass, 1, getValues()[i]);
 		}
 		
 		return this;
@@ -275,7 +240,12 @@ public abstract class Vector<N extends Number> {
 	 * OTHER CRAP
 	 */
 	
-	@Override
+	/**
+	 * For a 2 vectors to be the same,
+	 * they must:
+	 * 1. Have the same amount of dimensions.
+	 * 2. Have the same values
+	 */
 	public boolean equals(Object obj) {
 		//Check if dimensions are the same
 		if(getDimensionsOf(obj) != getDimensionsOf(this)) {
@@ -288,7 +258,7 @@ public abstract class Vector<N extends Number> {
 			//Check if values are identical
 			int dimension = getDimensionsOf(obj);
 			for(int i = 0; i<dimension; i++) {
-				if(that.values != this.values) {
+				if(that.values[i] != this.values[i]) {
 					return false;
 				}
 			}
