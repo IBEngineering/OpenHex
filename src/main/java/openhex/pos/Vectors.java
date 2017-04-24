@@ -11,13 +11,13 @@ import openhex.pos.at.VectorData;
  *
  */
 public class Vectors {
-
-	public static Vector3f toVector3f(Vector2f vec, float z) {
-		return new Vector3f(vec.x, vec.y, z);
+	
+	public static Vector3f toVector3f(Vector2f vec, float y) {
+		return new Vector3f(vec.x, y, vec.y);
 	}
 	
 	public static Vector2f toVector2f(Vector3f vec) {
-		return new Vector2f(vec.x, vec.y);
+		return new Vector2f(vec.x, vec.z);
 	}
 	
 	/**
@@ -26,10 +26,20 @@ public class Vectors {
 	 */
 	public static @VectorData(dimensions=3) Vector<Integer> toHexVector(Vector2f vec, double size) {
 		//see redblobgames
-		int x = (int) (vec.x * 2.0/3.0 / size);
-		int z = (int) ((-vec.x / 3.0 + Math.sqrt(3.0)/3.0 * vec.y) / size);
-		int y = -x-z;
-		return  new HexVector(x, y, z);
+		//for some reason q and r are not in order here
+		double r = vec.x * 2d/3d / size;
+		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.y) / size;
+		double s = -q-r;
+		
+		System.out.println(String.format("UNROUNDED: %f, %f, %f", q,s,r));
+		
+		int x = (int) Math.round(q);
+		int y = (int) Math.round(s);
+		int z = (int) Math.round(r);
+		
+		System.out.println(String.format("ROUNDED: %d, %d, %d", x,y,z));
+		
+		return  new HexVector(x,y,z);
 	}
 	
 	/**

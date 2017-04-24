@@ -10,6 +10,7 @@ public class ViewApplication extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		flyCam.setDragToRotate(true);
+		flyCam.setMoveSpeed(65f);
 		
 		stateManager.attachAll(new RenderState(), new InputState());
 	}

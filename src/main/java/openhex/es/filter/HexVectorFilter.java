@@ -24,9 +24,11 @@ public class HexVectorFilter implements ComponentFilter<HexTile> {
 		if(c instanceof HexTile) {
 			HexTile t = (HexTile) c;
 			if(t.getPosition().equals(pos)) {
+				System.out.println("Found: " + t.getPosition() + ", " + pos);
 				return true;
 			}
-		} 
+		}
+		System.out.println("Not Found: " + c + ", " + pos);
 		return false;
 	}
 

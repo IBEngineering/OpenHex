@@ -13,7 +13,6 @@ public class HexVector extends Vector<Integer> {
 	
 	public HexVector(int x, int y, int z) {
 		super(new Integer[] {x,y,z});
-		System.out.println(values);
 		this.x = x;
 		this.y = y;
 		this.z = z;

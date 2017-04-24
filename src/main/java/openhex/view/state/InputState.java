@@ -1,5 +1,7 @@
 package openhex.view.state;
 
+import java.util.Set;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.input.InputManager;
@@ -10,11 +12,8 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.simsilica.es.Entity;
-import com.simsilica.es.EntityChange;
-import com.simsilica.es.EntitySet;
+import com.simsilica.es.EntityId;
 
-import openhex.es.EventComponent;
 import openhex.es.filter.HexVectorFilter;
 import openhex.event.PickingEvent;
 import openhex.pos.HexVector;
@@ -64,21 +63,17 @@ public class InputState extends BaseAppState implements ActionListener {
 		
 		Vector2f clickPos = getApplication().getInputManager().getCursorPosition();
 		Vector3f spacePos = cam.getWorldCoordinates(clickPos, 0);
-		Vector3f dir = cam.getWorldCoordinates(clickPos, 1f);
+		Vector3f dir = cam.getWorldCoordinates(clickPos, 1f).subtractLocal(spacePos).normalizeLocal();
 		
 		float distance = FastMath.abs(spacePos.y / dir.y);
 		Vector3f groundIntersect = spacePos.add(dir.mult(distance));
 		HexVector pos = (HexVector) Vectors.toHexVector(groundIntersect);
 		
-		System.out.println("Position: " + pos.toString());
-		
-		EntitySet foundEntities = getState(RenderState.class).getEntityData().getEntities(new HexVectorFilter(pos), EventComponent.class);
+		Set<EntityId> foundEntities = getState(RenderState.class).getEntityData().findEntities(new HexVectorFilter(pos));
 		boolean found = false;
-		for(Entity e : foundEntities) {
+		for(EntityId e : foundEntities) {
 			if(!found) { found = true; }
-			e.get(EventComponent.class).addEvent(new PickingEvent());
+			getState(RenderState.class).getEntityData().setComponent(e, new PickingEvent());
 		}
-		
-		System.out.println("Target found: " + found);
 	}
 }

@@ -17,10 +17,9 @@ import com.simsilica.es.EntityId;
 import com.simsilica.es.EntitySet;
 import com.simsilica.es.base.DefaultEntityData;
 
-import openhex.es.EventComponent;
 import openhex.es.HexTile;
 import openhex.es.ResourceDescriptor;
-import openhex.event.Event;
+import openhex.event.PickingEvent;
 import openhex.pos.HexVector;
 import openhex.pos.Vectors;
 import openhex.view.mesh.HexMesh;
@@ -37,7 +36,7 @@ public class RenderState extends BaseAppState {
 	@Override
 	protected void initialize(Application app) {
 		entitySet = entityData.getEntities(HexTile.class, ResourceDescriptor.class);
-		eventEntitySet = entityData.getEntities(ResourceDescriptor.class, EventComponent.class);
+		eventEntitySet = entityData.getEntities(ResourceDescriptor.class, PickingEvent.class);
 		
 		createEntity(new HexTile(new HexVector(0,1,-1), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new HexVector(1,0,-1), 0), new ResourceDescriptor());
@@ -53,7 +52,7 @@ public class RenderState extends BaseAppState {
 	
 	protected void createEntity(HexTile t, ResourceDescriptor r) {
 		EntityId id = entityData.createEntity();
-		entityData.setComponents(id, t, r, new EventComponent());
+		entityData.setComponents(id, t, r);
 	}
 
 	@Override
@@ -89,18 +88,17 @@ public class RenderState extends BaseAppState {
 		if(eventEntitySet.applyChanges()) {
 			for(Entity added : eventEntitySet.getAddedEntities()) {
 				System.out.println("Processing added event entities...");
-				EventComponent events = added.get(EventComponent.class);
 				ResourceDescriptor r = added.get(ResourceDescriptor.class);
 				
-				picked(events, r);
+				changeColor(r);
 			}
 			
 			for(Entity changed : eventEntitySet.getChangedEntities()) {
 				System.out.println("Processing changed event entities...");
-				EventComponent events = changed.get(EventComponent.class);
+				entityData.removeComponent(changed.getId(), PickingEvent.class);
 				ResourceDescriptor r = changed.get(ResourceDescriptor.class);
 				
-				picked(events, r);
+				changeColor(r);
 			}
 		}
 	}
@@ -128,13 +126,6 @@ public class RenderState extends BaseAppState {
 		hexTileSpatial.remove(r);
 	}
 	
-	private void picked(EventComponent events, ResourceDescriptor r) {
-		Event event = events.getEventList().poll();
-		if(event != null && !event.isConsumed() && event.getName().equals("Picking")) {
-			changeColor(r);
-		}
-	}
-	
 	@Override
 	protected void cleanup(Application app) {
 		
@@ -149,7 +140,7 @@ public class RenderState extends BaseAppState {
 	public Material getMaterial() {
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.randomColor());
-		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
+		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		return mat;
 	}
 
