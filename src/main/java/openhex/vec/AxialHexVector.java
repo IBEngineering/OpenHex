@@ -3,11 +3,12 @@ package openhex.vec;
 import openhex.vec.at.VectorData;
 
 @VectorData(dimensions = 3)
-public class AxialHexVector<N extends Number> extends Vector<N> {
+public abstract class AxialHexVector<N extends Number> extends Vector<N> {
 
 	protected N q,r,h;
 	
 	public AxialHexVector(N q, N r, N h) {
+		createValues();
 		this.q = q;
 		this.r = r;
 		this.h = h;
