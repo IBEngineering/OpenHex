@@ -18,7 +18,7 @@ repositories {
     //maven{url 'http://nifty-gui.sourceforge.net/nifty-maven-repo'}
 }
 
-ext.jmeVersion = "[3.1,)"
+ext.jmeVersion = "3.1.0-beta1"
 
 dependencies {
     
