@@ -1,13 +1,23 @@
 #!/usr/bin/python
-from os import *
+import os
+import platform
 
-def doGradleThings():
+def call():
     """
-    This doesn't check if it's in the right directory.
-    It simply assumes it can call ./gradlew.
-    It also won work on windows.
+    Currently has Linux and Windows support.
     """
-    system("gradle build ; ./gradlew run")
+    print(platform.system())
+    if platform.system() == 'Linux':
+        callLinux
+    elif platform.system() == 'Windows':
+        callWindows()
+
+def callLinux():
+    os.system("gradle build ; ./gradlew run")
+
+def callWindows():
+    os.system("gradle build")
+    os.system("gradlew.bat")
 
 if __name__ == '__main__':
-    doGradleThings();
+    call()
