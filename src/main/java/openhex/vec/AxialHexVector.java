@@ -7,11 +7,11 @@ public abstract class AxialHexVector<N extends Number> extends Vector<N> {
 
 	protected N q,r,h;
 	
-	public AxialHexVector(N q, N r, N h) {
-		createValues();
-		this.q = q;
-		this.r = r;
-		this.h = h;
+	public AxialHexVector(N... values) {
+		super(values);
+		this.q = values[0];
+		this.r = values[1];
+		this.h = values[2];
 	}
 	
 	public N getQ() {

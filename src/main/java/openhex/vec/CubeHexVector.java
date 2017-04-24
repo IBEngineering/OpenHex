@@ -9,6 +9,7 @@ public abstract class CubeHexVector<N extends Number> extends Vector<N> {
 	protected N q,r,s,h;
 	
 	public CubeHexVector(N q, N r, N s, N h) {
+		createValues();
 		this.q = q;
 		this.r = r;
 		this.s = s;

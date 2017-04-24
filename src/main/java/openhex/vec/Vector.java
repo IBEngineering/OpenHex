@@ -51,8 +51,12 @@ public abstract class Vector<N extends Number> {
 	protected Class<N> nClass;
 	
 	public Vector(N... values) {
-		this.nClass = (Class<N>) values[0].getClass();
-		this.values = values;
+		if(values.length == getDimensionsOf(this)) {
+			this.nClass = (Class<N>) values[0].getClass();
+			this.values = values;
+		} else {
+			throw new DimensionalException(getDimensionsOf(this), values.length);
+		}
 	}
 	
 	/*
