@@ -4,6 +4,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 import openhex.pos.at.VectorData;
+import openhex.pos.fin.VectorAS;
 
 /**
  * 
@@ -29,17 +30,15 @@ public class Vectors {
 		//for some reason q and r are not in order here
 		double r = vec.x * 2d/3d / size;
 		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.y) / size;
-		double s = -q-r;
 		
-		System.out.println(String.format("UNROUNDED: %f, %f, %f", q,s,r));
+		System.out.println(String.format("UNROUNDED: %f, %f", q,r));
 		
-		int x = (int) Math.round(q);
-		int y = (int) Math.round(s);
-		int z = (int) Math.round(r);
+		int rq = (int) Math.round(q);
+		int rr = (int) Math.round(r);
 		
-		System.out.println(String.format("ROUNDED: %d, %d, %d", x,y,z));
+		System.out.println(String.format("ROUNDED: %d, %d", rq,rr));
 		
-		return  new HexVector(x,y,z);
+		return new VectorAS(rq, rr, 0);
 	}
 	
 	/**

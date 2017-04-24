@@ -4,13 +4,13 @@ import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityComponent;
 
 import openhex.es.HexTile;
-import openhex.pos.HexVector;
+import openhex.pos.fin.VectorAS;
 
 public class HexVectorFilter implements ComponentFilter<HexTile> {
 
-	private HexVector pos;
+	private VectorAS pos;
 	
-	public HexVectorFilter(HexVector pos) {
+	public HexVectorFilter(VectorAS pos) {
 		this.pos = pos;
 	}
 	

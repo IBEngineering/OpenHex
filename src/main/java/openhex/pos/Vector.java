@@ -45,7 +45,7 @@ public abstract class Vector<N extends Number> {
 	 */
 	protected N[] values;
 	
-	private Class<N> nClass;
+	protected Class<N> nClass;
 	
 	public Vector(N... values) {
 		this.nClass = (Class<N>) values[0].getClass();

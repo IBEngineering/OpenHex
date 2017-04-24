@@ -1,7 +1,6 @@
 package openhex.run;
 
 import openhex.game.Game;
-import openhex.pos.HexVector;
 import openhex.pos.Vector;
 import openhex.view.ViewApplication;
 
@@ -17,9 +16,6 @@ public class Test {
 
 	public static void vectorTests() {
 		
-		HexVector v1 = new HexVector(-2,1,1);
-		Vector<Integer> v2 = new HexVector(1,0,-1);
-		
 		Vector<Integer> v3 = new Vector<Integer>(new Integer[] {1,1,-2}) {
 			
 			@Override
@@ -34,7 +30,6 @@ public class Test {
 			}
 		};
 		
-		System.out.println(v1.add(v2));
 		System.out.println(v3.add(v4));
 		System.out.println(v4.add(v3));
 		
@@ -43,6 +38,7 @@ public class Test {
 		System.out.println(v4.mult(v3));
 		
 		System.out.println(v4.div(v3));
+		System.out.println(v3.div(v4));
 		
 		System.out.println(v4.negate());
 		

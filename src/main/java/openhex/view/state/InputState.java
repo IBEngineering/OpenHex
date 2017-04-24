@@ -17,8 +17,8 @@ import com.simsilica.es.EntityId;
 import openhex.es.filter.HexVectorFilter;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
-import openhex.pos.HexVector;
 import openhex.pos.Vectors;
+import openhex.pos.fin.VectorAS;
 
 public class InputState extends BaseAppState implements ActionListener {
 
@@ -68,7 +68,7 @@ public class InputState extends BaseAppState implements ActionListener {
 		
 		float distance = FastMath.abs(spacePos.y / dir.y);
 		Vector3f groundIntersect = spacePos.add(dir.mult(distance));
-		HexVector pos = (HexVector) Vectors.toHexVector(groundIntersect);
+		VectorAS pos = (VectorAS) Vectors.toHexVector(groundIntersect);
 		
 		Set<EntityId> foundEntities = Game.get().getTileEntityData().findEntities(new HexVectorFilter(pos));
 		boolean found = false;

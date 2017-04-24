@@ -2,6 +2,7 @@ package openhex.pos;
 
 import openhex.pos.at.VectorData;
 
+@Deprecated
 @VectorData(dimensions = 3)
 public class HexVector extends Vector<Integer> {
 

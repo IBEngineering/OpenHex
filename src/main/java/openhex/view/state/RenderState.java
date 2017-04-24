@@ -22,8 +22,8 @@ import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
-import openhex.pos.HexVector;
 import openhex.pos.Vectors;
+import openhex.pos.fin.VectorAS;
 
 public class RenderState extends BaseAppState {
 	
@@ -40,13 +40,13 @@ public class RenderState extends BaseAppState {
 		entitySet = ted.getEntities(HexTile.class, ResourceDescriptor.class);
 		eventEntitySet = ted.getEntities(ResourceDescriptor.class, PickingEvent.class);
 		
-		createEntity(new HexTile(new HexVector(0,1,-1), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(1,0,-1), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(0,0,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(1,-1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(-1,1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(-1,0,1), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new HexVector(0,-1,1), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(0,0,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(1,1,-1), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(1,0,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(0,1,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(-1,0,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(0,-1,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(-1,-1,0), 0), new ResourceDescriptor());
 		
 		System.out.println(entitySet.toString());
 		
