@@ -1,7 +1,6 @@
 package openhex.run;
 
 import openhex.game.Game;
-import openhex.vec.Vector;
 import openhex.view.ViewApplication;
 
 public class Test {
@@ -13,3 +12,4 @@ public class Test {
 	}
 	
 }
+s

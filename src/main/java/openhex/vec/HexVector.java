@@ -53,5 +53,4 @@ public class HexVector extends Vector<Integer> {
 		return true;
 	}
 	
-	
 }

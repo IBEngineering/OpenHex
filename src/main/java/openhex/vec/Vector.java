@@ -238,7 +238,7 @@ public abstract class Vector<N extends Number> {
 	 * GET AND SET
 	 */
 	protected abstract N[] getValues();
-	protected abstract void createValues();
+	protected void createValues() {};	//abstract, but optional
 	
 	/*
 	 * OTHER CRAP
