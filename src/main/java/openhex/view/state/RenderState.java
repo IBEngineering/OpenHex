@@ -15,11 +15,11 @@ import com.simsilica.es.Entity;
 import com.simsilica.es.EntityData;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.EntitySet;
-import com.simsilica.es.base.DefaultEntityData;
 
 import openhex.es.HexTile;
 import openhex.es.ResourceDescriptor;
 import openhex.event.PickingEvent;
+import openhex.game.Game;
 import openhex.pos.HexVector;
 import openhex.pos.Vectors;
 import openhex.view.mesh.HexMesh;
@@ -28,15 +28,16 @@ public class RenderState extends BaseAppState {
 	
 	public static final long ES_HEXTILE_AND_RES = 0;
 	
-	private EntityData entityData = new DefaultEntityData();
 	private Map<ResourceDescriptor, Spatial> hexTileSpatial = new HashMap<>();
 	private EntitySet entitySet;
 	private EntitySet eventEntitySet;
 	
 	@Override
 	protected void initialize(Application app) {
-		entitySet = entityData.getEntities(HexTile.class, ResourceDescriptor.class);
-		eventEntitySet = entityData.getEntities(ResourceDescriptor.class, PickingEvent.class);
+		EntityData ted = Game.get().getTileEntityData();
+		
+		entitySet = ted.getEntities(HexTile.class, ResourceDescriptor.class);
+		eventEntitySet = ted.getEntities(ResourceDescriptor.class, PickingEvent.class);
 		
 		createEntity(new HexTile(new HexVector(0,1,-1), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new HexVector(1,0,-1), 0), new ResourceDescriptor());
@@ -51,8 +52,8 @@ public class RenderState extends BaseAppState {
 	}
 	
 	protected void createEntity(HexTile t, ResourceDescriptor r) {
-		EntityId id = entityData.createEntity();
-		entityData.setComponents(id, t, r);
+		EntityId id = Game.get().getTileEntityData().createEntity();
+		Game.get().getTileEntityData().setComponents(id, t, r);
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class RenderState extends BaseAppState {
 			
 			for(Entity changed : eventEntitySet.getChangedEntities()) {
 				System.out.println("Processing changed event entities...");
-				entityData.removeComponent(changed.getId(), PickingEvent.class);
+				Game.get().getTileEntityData().removeComponent(changed.getId(), PickingEvent.class);
 				ResourceDescriptor r = changed.get(ResourceDescriptor.class);
 				
 				changeColor(r);
@@ -144,17 +145,7 @@ public class RenderState extends BaseAppState {
 		return mat;
 	}
 
-	public EntityData getEntityData() {
-		return entityData;
-	}
-
-	public void setEntityData(EntityData entityData) {
-		this.entityData = entityData;
-	}
-
 	public EntitySet getEventEntitySet() {
 		return eventEntitySet;
 	}
-	
-	
 }

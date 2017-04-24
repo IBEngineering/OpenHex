@@ -14,11 +14,11 @@ public final class Game implements EntityManager {
 
 	private static Game INSTANCE;
 	
-	public static Game getInstance() {
+	public static Game get() {
 		return INSTANCE;
 	}
 	
-	private static void setInstance(Game g) {
+	private static void set(Game g) {
 		if(INSTANCE == null) {
 			INSTANCE = g;
 		} else {
@@ -35,7 +35,7 @@ public final class Game implements EntityManager {
 		 * setInstance throws a RunTimeException if an instance
 		 * already exists
 		 */
-		setInstance(this);
+		set(this);
 		
 		tileEntityData = new DefaultEntityData();
 		staticEntityData = new DefaultEntityData();

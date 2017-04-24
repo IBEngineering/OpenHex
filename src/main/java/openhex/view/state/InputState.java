@@ -16,6 +16,7 @@ import com.simsilica.es.EntityId;
 
 import openhex.es.filter.HexVectorFilter;
 import openhex.event.PickingEvent;
+import openhex.game.Game;
 import openhex.pos.HexVector;
 import openhex.pos.Vectors;
 
@@ -69,11 +70,11 @@ public class InputState extends BaseAppState implements ActionListener {
 		Vector3f groundIntersect = spacePos.add(dir.mult(distance));
 		HexVector pos = (HexVector) Vectors.toHexVector(groundIntersect);
 		
-		Set<EntityId> foundEntities = getState(RenderState.class).getEntityData().findEntities(new HexVectorFilter(pos));
+		Set<EntityId> foundEntities = Game.get().getTileEntityData().findEntities(new HexVectorFilter(pos));
 		boolean found = false;
 		for(EntityId e : foundEntities) {
 			if(!found) { found = true; }
-			getState(RenderState.class).getEntityData().setComponent(e, new PickingEvent());
+			Game.get().getTileEntityData().setComponent(e, new PickingEvent());
 		}
 	}
 }
