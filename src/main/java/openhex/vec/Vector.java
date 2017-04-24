@@ -3,6 +3,16 @@ package openhex.vec;
 import openhex.util.math.GenericMath;
 import openhex.vec.at.VectorData;
 
+/**
+ * Generic Vector with generic type.
+ * Uses GenericMath for it's math.
+ * This class is easier to use when extending,
+ * instead of anonymously.
+ * 
+ * @author MisterCavespider
+ *
+ * @param <N>	Number
+ */
 @VectorData()	//No dimension, Float
 public abstract class Vector<N extends Number> {
 
@@ -16,9 +26,6 @@ public abstract class Vector<N extends Number> {
 		protected DN[] getValues() {
 			return values;
 		}
-
-		@Override
-		protected void createValues() {}
 	}
 	
 	/**
@@ -59,8 +66,13 @@ public abstract class Vector<N extends Number> {
 		}
 	}
 	
-	/*
-	 * SPACE
+	/**
+	 * Checks whether the dimensions specified by
+	 * the {@link VectorData} AND values length is
+	 * the same.
+	 * 
+	 * @param v	Another vector
+	 * @return	Same {@link VectorData#dimensions()} && values.length
 	 */
 	public boolean sameDimensionsAs(Vector<?> v) {
 		if(getDimensionsOf(v) != getDimensionsOf(this)) {
@@ -73,34 +85,14 @@ public abstract class Vector<N extends Number> {
 		
 		return true;
 	}
-	
-	/*
-	 * CONVERSION
-	 */
-	
-	
-	
-	
-	
-	
-	
-	
-	public void checkType() {
-		if(nClass == Integer.class) 	{	System.out.println("Integer!");	}
-		else if(nClass == Long.class) 	{	System.out.println("Long!");	}
-		else if(nClass == Short.class)	{	System.out.println("Short!");	}
-		else if(nClass == Byte.class) 	{	System.out.println("Byte!");	}
-		else if(nClass == Float.class)	{	System.out.println("Float!");	}
-		else							{	System.out.println("Double!");	}
-	}
-	
+
 	/*
 	 *  MATH
 	 */
 	
 	/**
 	 * Adds two vectors, and returns a new one.
-	 * @param v
+	 * @param v	The other vector
 	 * @return	A new vector with the sum of this and v.
 	 */
 	public Vector<N> add(Vector<?> v) {
@@ -118,8 +110,7 @@ public abstract class Vector<N extends Number> {
 	
 	/**
 	 * Adds two vectors locally, and returns this, for method chaining.
-	 * The sum is applied locally (<code>this.values</code> changes).
-	 * @param v
+	 * @param v	The other vector
 	 * @return	This vector with the sum of this and v.
 	 */
 	public Vector<N> addLocal(Vector<?> v) {
@@ -136,7 +127,7 @@ public abstract class Vector<N extends Number> {
 	
 	/**
 	 * Subtracts two vectors, and returns a new one.
-	 * @param v
+	 * @param v	The other vector
 	 * @return	A new vector with the difference between this and v.
 	 */
 	public Vector<N> subtract(Vector<?> v) {
@@ -145,14 +136,18 @@ public abstract class Vector<N extends Number> {
 	
 	/**
 	 * Subtracts two vectors locally, and returns this, for method chaining.
-	 * The difference is applied locally (<code>this.values</code> changes).
-	 * @param v
+	 * @param v	The other vector
 	 * @return	This vector with the difference of this and v.
 	 */
 	public Vector<N> subtractLocal(Vector<?> v) {
 		return addLocal(v.negate());
 	}
 	
+	/**
+	 * Multiplies two vectors, and returns a new one.
+	 * @param v	The other vector
+	 * @return	A new vector with the product of this and v.
+	 */
 	public Vector<N> mult(Vector<?> v) {
 		if(!sameDimensionsAs(v)) {
 			return null;
@@ -166,6 +161,11 @@ public abstract class Vector<N extends Number> {
 		return new DefaultVector<N>(r);
 	}
 	
+	/**
+	 * Multiplies two vectors locally, and returns this, for method chaining.
+	 * @param v	The other vector
+	 * @return	This vector with the product of this and v.
+	 */
 	public Vector<N> multLocal(Vector<?> v) {
 		if(!sameDimensionsAs(v)) {
 			return null;
@@ -178,10 +178,20 @@ public abstract class Vector<N extends Number> {
 		return this;
 	}
 	
+	/**
+	 * Divides two vectors, and returns a new one.
+	 * @param v	The other vector
+	 * @return	A new vector with the quotient of this and v.
+	 */
 	public Vector<N> div(Vector<?> v) {
 		return mult(v.inverse());
 	}
 	
+	/**
+	 * Divides two vectors locally, and returns this, for method chaining.
+	 * @param v	The other vector
+	 * @return	This vector with the quotient of this and v.
+	 */
 	public Vector<N> divLocal(Vector<?> v) {
 		return multLocal(v.inverse());
 	}
@@ -214,7 +224,7 @@ public abstract class Vector<N extends Number> {
 	
 	/**
 	 * Same as 1/x.
-	 * @return
+	 * @return	A new Vector
 	 */
 	public Vector<N> inverse() {		
 		N[] r = GenericMath.genericArray(nClass, values.length);
@@ -227,8 +237,8 @@ public abstract class Vector<N extends Number> {
 	}
 	
 	/**
-	 * Same as 1/x.
-	 * @return
+	 * Same as 1/x, but locally.
+	 * @return	This
 	 */
 	public Vector<N> inverseLocal() {
 		for (int i = 0; i < values.length; i++) {
@@ -241,8 +251,13 @@ public abstract class Vector<N extends Number> {
 	/*
 	 * GET AND SET
 	 */
+	/**
+	 * Get values.
+	 * This is made abstract, so you can update
+	 * your local values.
+	 * @return	The (correct) values.
+	 */
 	protected abstract N[] getValues();
-	protected void createValues() {};	//abstract, but optional
 	
 	/*
 	 * OTHER CRAP
@@ -256,8 +271,8 @@ public abstract class Vector<N extends Number> {
 	 */
 	public boolean equals(Object obj) {
 		//Check if dimensions are the same
-		if(getDimensionsOf(obj) != getDimensionsOf(this)) {
-			return false;
+		if(getDimensionsOf(obj) == getDimensionsOf(this)) {
+			return true;
 		}
 		
 		if(obj instanceof Vector) {

@@ -3,17 +3,23 @@ package openhex.vec;
 import openhex.util.math.GenericMath;
 import openhex.vec.at.VectorData;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ * @param <N>	Number
+ */
 @VectorData(dimensions = 4)
 public abstract class CubeHexVector<N extends Number> extends Vector<N> {
 
 	protected N q,r,s,h;
 	
-	public CubeHexVector(N q, N r, N s, N h) {
-		createValues();
-		this.q = q;
-		this.r = r;
-		this.s = s;
-		this.h = h;
+	public CubeHexVector(N... values) {
+		super(values);
+		this.q = values[0];
+		this.r = values[1];
+		this.s = values[2];
+		this.h = values[3];
 	}
 	
 	public N getQ() {

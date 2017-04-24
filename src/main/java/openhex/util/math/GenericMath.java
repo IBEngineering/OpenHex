@@ -66,6 +66,13 @@ public class GenericMath {
 		else							{	return (N)(Double)(a.doubleValue()/b.doubleValue());}
 	}
 	
+	/**
+	 * Returns a 'new' nClass.
+	 * Pretty much useless.
+	 * 
+	 * @param nClass
+	 * @return
+	 */
 	public static <N extends Number> Class<? extends Number> genericTypeCheck(Class<N> nClass) {
 		if(nClass == Integer.class) 	{	return Integer.class;	}
 		else if(nClass == Long.class) 	{	return Long.class;		}

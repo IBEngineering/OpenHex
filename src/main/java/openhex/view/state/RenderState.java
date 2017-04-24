@@ -21,10 +21,18 @@ import openhex.es.HexTile;
 import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
 import openhex.event.PickingEvent;
+import openhex.game.EntityManager;
 import openhex.game.Game;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
 
+/**
+ * Renders the scene.
+ * Relies heavily on {@link Game} (or any other {@link EntityManager}).
+ * 
+ * @author MisterCavespider
+ *
+ */
 public class RenderState extends BaseAppState {
 	
 	public static final long ES_HEXTILE_AND_RES = 0;

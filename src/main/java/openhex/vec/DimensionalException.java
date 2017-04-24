@@ -1,5 +1,10 @@
 package openhex.vec;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ */
 public class DimensionalException extends RuntimeException {
 
 	/**

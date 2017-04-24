@@ -6,6 +6,7 @@ import com.jme3.math.Vector3f;
 import openhex.vec.fin.VectorAS;
 
 /**
+ * Conversion singleton for {@link Vector}s.
  * 
  * @author MisterCavespider
  *

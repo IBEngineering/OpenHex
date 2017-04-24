@@ -22,6 +22,7 @@ public class ResourceDescriptor implements EntityComponent {
 	private static void loadStandardValues(ResourceDescriptor desc) {
 		desc.putResource(ResourceTypes.COLOR,	ColorRGBA.White)
 			.putResource(ResourceTypes.MESH,	new HexMesh(1f))
+			.putResource(ResourceTypes.TEXTURE, "Textures/Tiles/mr-tjpg.jpeg");
 			;
 	}
 	
@@ -84,6 +85,10 @@ public class ResourceDescriptor implements EntityComponent {
 	
 	public Mesh getMesh(ResourceType res) {
 		return getResource(res, Mesh.class);
+	}
+	
+	public String getString(ResourceType res) {
+		return getResource(res, String.class);
 	}
 	
 	/**

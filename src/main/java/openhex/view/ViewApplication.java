@@ -5,6 +5,11 @@ import com.jme3.app.SimpleApplication;
 import openhex.view.state.InputState;
 import openhex.view.state.RenderState;
 
+/**
+ * Application for the client part of the game.
+ * @author MisterCavespider
+ *
+ */
 public class ViewApplication extends SimpleApplication {
 	
 	@Override

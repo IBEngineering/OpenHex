@@ -2,6 +2,12 @@ package openhex.vec;
 
 import openhex.vec.at.VectorData;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ * @param <N>	Number
+ */
 @VectorData(dimensions = 3)
 public abstract class AxialHexVector<N extends Number> extends Vector<N> {
 

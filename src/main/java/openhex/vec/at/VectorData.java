@@ -6,6 +6,12 @@ import java.lang.annotation.Retention;
 
 import openhex.vec.Vector;
 
+/**
+ * Describes a {@link Vector}.
+ * 
+ * @author MisterCavespider
+ *
+ */
 @Retention(RUNTIME)
 public @interface VectorData {
 

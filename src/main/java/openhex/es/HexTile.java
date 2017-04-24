@@ -4,6 +4,11 @@ import com.simsilica.es.EntityComponent;
 
 import openhex.vec.fin.VectorAS;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ */
 public class HexTile implements EntityComponent {
 	
 	protected VectorAS position;

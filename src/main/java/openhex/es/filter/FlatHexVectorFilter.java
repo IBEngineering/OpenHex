@@ -6,6 +6,11 @@ import com.simsilica.es.EntityComponent;
 import openhex.es.HexTile;
 import openhex.vec.AxialHexVector;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ */
 public class FlatHexVectorFilter implements ComponentFilter<HexTile> {
 
 	private AxialHexVector<?> pos;

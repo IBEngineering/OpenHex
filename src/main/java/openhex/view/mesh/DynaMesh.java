@@ -7,6 +7,15 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 
+/**
+ * Mesh made in such a way to be able to change
+ * the buffers before they're applied.
+ * Do this by extending the class, overriding the abstract
+ * methods, and add calls to the super methods.
+ * 
+ * @author MisterCavespider
+ *
+ */
 public abstract class DynaMesh extends Mesh {
 
 	protected Vector3f[]	vertices;

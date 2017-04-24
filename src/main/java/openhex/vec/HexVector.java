@@ -2,6 +2,11 @@ package openhex.vec;
 
 import openhex.vec.at.VectorData;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ */
 @Deprecated
 @VectorData(dimensions = 3)
 public class HexVector extends Vector<Integer> {

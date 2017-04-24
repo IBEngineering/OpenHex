@@ -20,6 +20,15 @@ import openhex.game.Game;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
 
+/**
+ * Handles all input from jME.
+ * 
+ * To remove a mapping, use the {@link InputManager}
+ * and constants like {@link InputState#MAPPING_PICK}.
+ * 
+ * @author MisterCavespider
+ *
+ */
 public class InputState extends BaseAppState implements ActionListener {
 
 	public static final String MAPPING_PICK = "InputState.PICK";

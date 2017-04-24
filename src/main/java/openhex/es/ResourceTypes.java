@@ -1,5 +1,10 @@
 package openhex.es;
 
+/**
+ * 
+ * @author MisterCavespider
+ *
+ */
 public enum ResourceTypes implements ResourceType {
 	COLOR,
 	MESH,
