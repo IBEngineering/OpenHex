@@ -3,7 +3,6 @@ package openhex.vec;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import openhex.vec.at.VectorData;
 import openhex.vec.fin.VectorAS;
 
 /**
@@ -25,11 +24,11 @@ public class Vectors {
 	 * Flat top hexagonal (cube) coordinates.
 	 * @param vec
 	 */
-	public static @VectorData(dimensions=3) Vector<Integer> toHexVector(Vector2f vec, double size) {
+	public static VectorAS toVectorAS(Vector3f vec, double size) {
 		//see redblobgames
 		//for some reason q and r are not in order here
 		double r = vec.x * 2d/3d / size;
-		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.y) / size;
+		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.z) / size;
 		
 		System.out.println(String.format("UNROUNDED: %f, %f", q,r));
 		
@@ -38,50 +37,18 @@ public class Vectors {
 		
 		System.out.println(String.format("ROUNDED: %d, %d", rq,rr));
 		
-		return new VectorAS(rq, rr, 0);
+		return new VectorAS(rq, rr, (int)vec.y);
 	}
 	
-	/**
-	 * Flat top hexagonal (cube) coordinates.
-	 * Assumes size of 1.
-	 * @param vec
-	 * @return 
-	 */
-	public static @VectorData(dimensions=3) Vector<Integer> toHexVector(Vector2f vec) {
-		return Vectors.toHexVector(vec, 1.0);
-	}
-	
-	/**
-	 * Flat top hexagonal (cube) coordinates.
-	 * Converts 3d to 2d.
-	 * @param vec
-	 * @return 
-	 */
-	public static @VectorData(dimensions=3) Vector<Integer> toHexVector(Vector3f vec, double size) {
-		return toHexVector(toVector2f(vec), size);
-	}
-	
-	/**
-	 * Flat top hexagonal (cube) coordinates.
-	 * Converts 3d to 2d.
-	 * Assumes size of 1.
-	 * @param vec
-	 * @return 
-	 */
-	public static @VectorData(dimensions=3) Vector<Integer> toHexVector(Vector3f vec) {
-		return toHexVector(vec, 1.0);
-	}
-	
-	public static Vector2f toVector2f(@VectorData(dimensions=3) Vector<Integer> vec, double size) {
-		float x = (float) (size * 3f/2f * vec.getValues()[2]);
-		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[0] + vec.getValues()[2]/2.0));
+	public static Vector2f toVector2f(VectorAS vec, double size) {
+		float x = (float) (size * 3f/2f * vec.getR());
+		float y = (float) (size * Math.sqrt(3) * (vec.getQ() + vec.getR()/2.0));
 		return new Vector2f(x, y);
 	}
 	
-	public static Vector3f toVector3f(@VectorData(dimensions=3) Vector<Integer> vec, double size) {
-		float x = (float) (size * 3f/2f * vec.getValues()[2]);
-		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[0] + vec.getValues()[2]/2.0));
-		return new Vector3f(x, 0, y);
+	public static Vector3f toVector3f(VectorAS vec, double size) {
+		Vector2f plane = toVector2f(vec, size);
+		return new Vector3f(plane.x, vec.getH(), plane.y);
 	}
 	
 	/*

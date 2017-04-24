@@ -14,7 +14,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.simsilica.es.EntityId;
 
-import openhex.es.filter.HexVectorFilter;
+import openhex.es.filter.FlatHexVectorFilter;
 import openhex.event.PickingEvent;
 import openhex.game.Game;
 import openhex.vec.Vectors;
@@ -68,9 +68,9 @@ public class InputState extends BaseAppState implements ActionListener {
 		
 		float distance = FastMath.abs(spacePos.y / dir.y);
 		Vector3f groundIntersect = spacePos.add(dir.mult(distance));
-		VectorAS pos = (VectorAS) Vectors.toHexVector(groundIntersect);
+		VectorAS pos = Vectors.toVectorAS(groundIntersect, 1f);
 		
-		Set<EntityId> foundEntities = Game.get().getTileEntityData().findEntities(new HexVectorFilter(pos));
+		Set<EntityId> foundEntities = Game.get().getTileEntityData().findEntities(new FlatHexVectorFilter(pos));
 		boolean found = false;
 		for(EntityId e : foundEntities) {
 			if(!found) { found = true; }

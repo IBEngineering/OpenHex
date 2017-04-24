@@ -41,12 +41,12 @@ public class RenderState extends BaseAppState {
 		eventEntitySet = ted.getEntities(ResourceDescriptor.class, PickingEvent.class);
 		
 		createEntity(new HexTile(new VectorAS(0,0,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(1,1,-1), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(1,-1,0), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new VectorAS(1,0,0), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new VectorAS(0,1,0), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new VectorAS(-1,0,0), 0), new ResourceDescriptor());
 		createEntity(new HexTile(new VectorAS(0,-1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(-1,-1,0), 0), new ResourceDescriptor());
+		createEntity(new HexTile(new VectorAS(-1,1,0), 0), new ResourceDescriptor());
 		
 		System.out.println(entitySet.toString());
 		
@@ -139,7 +139,8 @@ public class RenderState extends BaseAppState {
 
 	public Material getMaterial() {
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("Textures/Tiles/tiles.jpg"));
+		//mat.setColor("Color", ColorRGBA.randomColor());
+		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("Textures/Tiles/mr-tjpg.jpeg"));
 		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		return mat;
 	}

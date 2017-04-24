@@ -4,13 +4,13 @@ import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityComponent;
 
 import openhex.es.HexTile;
-import openhex.vec.fin.VectorAS;
+import openhex.vec.AxialHexVector;
 
-public class HexVectorFilter implements ComponentFilter<HexTile> {
+public class FlatHexVectorFilter implements ComponentFilter<HexTile> {
 
-	private VectorAS pos;
+	private AxialHexVector<?> pos;
 	
-	public HexVectorFilter(VectorAS pos) {
+	public FlatHexVectorFilter(AxialHexVector<?> pos) {
 		this.pos = pos;
 	}
 	
@@ -23,7 +23,7 @@ public class HexVectorFilter implements ComponentFilter<HexTile> {
 	public boolean evaluate(EntityComponent c) {
 		if(c instanceof HexTile) {
 			HexTile t = (HexTile) c;
-			if(t.getPosition().equals(pos)) {
+			if(t.getPosition().getR() == pos.getR() && t.getPosition().getQ() == pos.getQ()) {
 				System.out.println("Found: " + t.getPosition() + ", " + pos);
 				return true;
 			}
