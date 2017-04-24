@@ -1,21 +1,21 @@
 package openhex.es;
 
+import com.simsilica.es.EntityComponent;
+
 import openhex.pos.HexVector;
 
-public class HexTile {
+public class HexTile implements EntityComponent {
 	
 	protected HexVector position;
 	protected float height;
-	protected long type;
 	
-	public HexTile(HexVector position, float height, long type) {
+	public HexTile(HexVector position, float height) {
 		this.position = position;
 		this.height = height;
-		this.type = type;
 	}
 	
 	public HexTile() {
-		this(new HexVector(0, 0, 0), 0f, 0L);
+		this(new HexVector(0, 0, 0), 0f);
 	}
 
 	public HexVector getPosition() {

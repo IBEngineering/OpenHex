@@ -36,4 +36,22 @@ public class HexVector extends Vector<Integer> {
 		
 		return values;
 	}
+
+	public boolean equals(HexVector that) {
+		if(this.x != that.x) {
+			return false;
+		}
+		
+		if(this.y != that.y) {
+			return false;
+		}
+		
+		if(this.z != that.z) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
 }

@@ -64,15 +64,15 @@ public class Vectors {
 	}
 	
 	public static Vector2f toVector2f(@VectorData(dimensions=3) Vector<Integer> vec, double size) {
-		float x = (float) (size * 3f/2f * vec.getValues()[0]);
-		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[2] + vec.getValues()[0]/2));
+		float x = (float) (size * 3f/2f * vec.getValues()[2]);
+		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[0] + vec.getValues()[2]/2.0));
 		return new Vector2f(x, y);
 	}
 	
 	public static Vector3f toVector3f(@VectorData(dimensions=3) Vector<Integer> vec, double size) {
-		float x = (float) (size * 3f/2f * vec.getValues()[0]);
-		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[2] + vec.getValues()[0]/2));
-		return new Vector3f(x, y, 0);
+		float x = (float) (size * 3f/2f * vec.getValues()[2]);
+		float y = (float) (size * Math.sqrt(3) * (vec.getValues()[0] + vec.getValues()[2]/2.0));
+		return new Vector3f(x, 0, y);
 	}
 	
 	/*

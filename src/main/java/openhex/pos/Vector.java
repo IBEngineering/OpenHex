@@ -97,6 +97,11 @@ public abstract class Vector<N extends Number> {
 	}
 	
 	protected N genericDiv(Number a, Number b) {
+		//idea:
+		//if(values[0] instanceof Integer) {
+		//	
+		//}
+		
 		if(nClass == Integer.class) 	{	return (N)(Integer)(a.intValue()/b.intValue());	}
 		else if(nClass == Long.class) 	{	return (N)(Long)(a.longValue()/b.longValue());	}
 		else if(nClass == Short.class)	{	return (N)(Integer)(a.shortValue()/b.shortValue());	}	//!
@@ -273,8 +278,8 @@ public abstract class Vector<N extends Number> {
 	@Override
 	public boolean equals(Object obj) {
 		//Check if dimensions are the same
-		if(getDimensionsOf(obj) == getDimensionsOf(this)) {
-			return true;
+		if(getDimensionsOf(obj) != getDimensionsOf(this)) {
+			return false;
 		}
 		
 		if(obj instanceof Vector) {
@@ -287,6 +292,7 @@ public abstract class Vector<N extends Number> {
 					return false;
 				}
 			}
+			return true;
 		}
 		
 		//If nothing, return false
