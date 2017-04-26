@@ -33,6 +33,8 @@ public abstract class DynaMesh extends Mesh {
         setBuffer(VertexBuffer.Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
         setBuffer(VertexBuffer.Type.TexCoord, 2, BufferUtils.createFloatBuffer(texCoords));
         setBuffer(VertexBuffer.Type.Index, 3, indices);
+        
+        updateBound();
     }
     
     protected abstract void generateVertices();
