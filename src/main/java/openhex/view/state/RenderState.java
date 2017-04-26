@@ -12,19 +12,16 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
-import com.simsilica.es.Entity;
-import com.simsilica.es.EntityData;
-import com.simsilica.es.EntityId;
-import com.simsilica.es.EntitySet;
 
-import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
-import openhex.event.PickingEvent;
 import openhex.game.EntityManager;
 import openhex.game.Game;
+import openhex.game.board.Board;
+import openhex.game.board.BoardLockListener;
 import openhex.game.board.HexTile;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
+import openhex.view.input.PickListener;
 
 /**
  * Renders the scene.
@@ -33,105 +30,64 @@ import openhex.vec.fin.VectorAS;
  * @author MisterCavespider
  *
  */
-public class RenderState extends BaseAppState {
+public class RenderState extends BaseAppState implements PickListener, BoardLockListener {
 	
 	public static final long ES_HEXTILE_AND_RES = 0;
 	
-	private Map<ResourceDescriptor, Spatial> hexTileSpatial = new HashMap<>();
-	private EntitySet entitySet;
-	private EntitySet eventEntitySet;
+	private Map<VectorAS, Spatial> tileSpatials = new HashMap<>();
 	
 	@Override
 	protected void initialize(Application app) {
-		EntityData ted = Game.get().getTileEntityData();
+		tileSpatials = new HashMap<>();
 		
-		entitySet = ted.getEntities(HexTile.class, ResourceDescriptor.class);
-		eventEntitySet = ted.getEntities(ResourceDescriptor.class, PickingEvent.class);
-		
-		createEntity(new HexTile(new VectorAS(0,0,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(1,-1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(1,0,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(0,1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(-1,0,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(0,-1,0), 0), new ResourceDescriptor());
-		createEntity(new HexTile(new VectorAS(-1,1,0), 0), new ResourceDescriptor());
-		
-		System.out.println(entitySet.toString());
-		
-	}
-	
-	protected void createEntity(HexTile t, ResourceDescriptor r) {
-		EntityId id = Game.get().getTileEntityData().createEntity();
-		Game.get().getTileEntityData().setComponents(id, t, r);
+		Game.get().getBoard().addListener(this);
+		Game.get().getBoard().lock();
 	}
 
 	@Override
 	public void update(float tpf) {
-		if(entitySet.applyChanges()) {
-			System.out.println("Applied changes...");
-			
-			for(Entity added : entitySet.getAddedEntities()) {
-				System.out.println("Processing added entities...");
-				HexTile t = added.get(HexTile.class);
-				ResourceDescriptor r = added.get(ResourceDescriptor.class);
-				
-				draw(r);
-				position(r,t);
-			}
-			
-			for(Entity changed : entitySet.getChangedEntities()) {
-				System.out.println("Processing changed entities...");
-				HexTile t = changed.get(HexTile.class);
-				ResourceDescriptor r = changed.get(ResourceDescriptor.class);
-				
-				position(r,t);
-			}
-			
-			for(Entity removed : entitySet.getRemovedEntities()) {
-				System.out.println("Processing removed entities...");
-				ResourceDescriptor r = removed.get(ResourceDescriptor.class);
-				
-				remove(r);
-			}
-		}
-		
-		if(eventEntitySet.applyChanges()) {
-			for(Entity picked : eventEntitySet.getAddedEntities()) {
-				System.out.println("Processing changed event entities...");
-				Game.get().getTileEntityData().removeComponent(picked.getId(), PickingEvent.class);
-				ResourceDescriptor r = picked.get(ResourceDescriptor.class);
-				
-				changeColor(r);
-			}
+		if(!getState(InputState.class).isListnening(this)) {
+			getState(InputState.class).addListener(this);
 		}
 	}
 
-	private void draw(ResourceDescriptor r) {
-		Mesh mesh = r.getMesh(ResourceTypes.MESH);
-		ColorRGBA color = r.getColor(ResourceTypes.COLOR);
-		
-		Geometry geom = new Geometry("Hex", mesh);
-		Material mat = getMaterial();
-		mat.setColor("Color", color);
-		geom.setMaterial(mat);
-		((SimpleApplication)getApplication()).getRootNode().attachChild(geom);
-		hexTileSpatial.put(r, geom);
+	private void draw(HexTile t) {
+		if(!tileSpatials.containsKey(t.getPosition())) {
+			Mesh mesh = t.getResourceDescriptor().getMesh(ResourceTypes.MESH);
+			ColorRGBA color = t.getResourceDescriptor().getColor(ResourceTypes.COLOR);
+			
+			Geometry geom = new Geometry("Hex", mesh);
+			Material mat = getMaterial();
+			mat.setColor("Color", color);
+			geom.setMaterial(mat);
+			((SimpleApplication)getApplication()).getRootNode().attachChild(geom);
+			tileSpatials.put(t.getPosition(), geom);
+		}
 	}
 	
-	private void changeColor(ResourceDescriptor r) {
-		Geometry geom = (Geometry) hexTileSpatial.get(r);
-		geom.getMaterial().setColor("Color", ColorRGBA.randomColor());
+	private void changeColor(HexTile t) {
+		System.out.println("Changing color of " + t);
+		if(tileSpatials.containsKey(t.getPosition())) {
+			System.out.println("Found Spatial");
+			Geometry geom = (Geometry) tileSpatials.get(t.getPosition());
+			geom.getMaterial().setColor("Color", ColorRGBA.randomColor());
+		}
+		System.out.println("Couldn't find Spatial");
 	}
 	
-	private void position(ResourceDescriptor r, HexTile t) {
-		Spatial s = hexTileSpatial.get(r);
-		s.setLocalTranslation(Vectors.toVector3f(t.getPosition(), 1f));
+	private void position(HexTile t) {
+		if(tileSpatials.containsKey(t.getPosition())) {
+			Spatial s = tileSpatials.get(t.getPosition());
+			s.setLocalTranslation(Vectors.toVector3f(t.getPosition(), 1f));
+		}
 	}
 	
-	private void remove(ResourceDescriptor r) {
-		Spatial s = hexTileSpatial.get(r);
-		((SimpleApplication)getApplication()).getRootNode().detachChild(s);
-		hexTileSpatial.remove(r);
+	private void remove(HexTile t) {
+		if(tileSpatials.containsKey(t.getPosition())) {
+			Spatial s = tileSpatials.get(t.getPosition());
+			((SimpleApplication)getApplication()).getRootNode().detachChild(s);
+			tileSpatials.remove(t.getPosition());
+		}
 	}
 	
 	@Override
@@ -153,7 +109,43 @@ public class RenderState extends BaseAppState {
 		return mat;
 	}
 
-	public EntitySet getEventEntitySet() {
-		return eventEntitySet;
+	@Override
+	public void onTilePick(VectorAS pos) {
+		System.out.println("On pick");
+		
+		HexTile tile = Game.get().getBoard().getTile(pos);
+		if(tile != null) {
+			changeColor(tile);
+		}
+	}
+
+	@Override
+	public boolean onLock(Board board) {
+		for(HexTile t : board.getTiles()) {
+			try {
+				draw(t);
+				position(t);
+			} catch(Exception e) {
+				//returns upon error
+				return false;
+			}
+		}
+		
+		// if everything is completed, it must be successful
+		return true;
+	}
+
+	@Override
+	public boolean onUnlock(Board board) {
+		for(HexTile t : board.getTiles()) {
+			try {
+				remove(t);
+			} catch(Exception e) {
+				//returns upon error
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

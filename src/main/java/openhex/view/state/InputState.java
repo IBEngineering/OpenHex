@@ -1,5 +1,6 @@
 package openhex.view.state;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.jme3.app.Application;
@@ -12,13 +13,10 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.simsilica.es.EntityId;
 
-import openhex.es.filter.FlatHexVectorFilter;
-import openhex.event.PickingEvent;
-import openhex.game.Game;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
+import openhex.view.input.PickListener;
 
 /**
  * Handles all input from jME.
@@ -33,8 +31,12 @@ public class InputState extends BaseAppState implements ActionListener {
 
 	public static final String MAPPING_PICK = "InputState.PICK";
 	
+	private Set<PickListener> listeners;
+	
 	@Override
 	protected void initialize(Application app) {
+		listeners = new HashSet<>();
+		
 		InputManager input = app.getInputManager();
 		
 		input.addMapping(MAPPING_PICK,
@@ -56,6 +58,14 @@ public class InputState extends BaseAppState implements ActionListener {
 
 	@Override
 	protected void onDisable() {}
+	
+	public void addListener(PickListener listener) {
+		listeners.add(listener);
+	}
+	
+	public boolean isListnening(PickListener listener) {
+		return listeners.contains(listener);
+	}
 	
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
@@ -79,11 +89,10 @@ public class InputState extends BaseAppState implements ActionListener {
 		Vector3f groundIntersect = spacePos.add(dir.mult(distance));
 		VectorAS pos = Vectors.toVectorAS(groundIntersect, 1f);
 		
-		Set<EntityId> foundEntities = Game.get().getTileEntityData().findEntities(new FlatHexVectorFilter(pos));
-		boolean found = false;
-		for(EntityId e : foundEntities) {
-			if(!found) { found = true; }
-			Game.get().getTileEntityData().setComponent(e, new PickingEvent());
+		// ALERT ALL LISTENERS
+		
+		for(PickListener l : listeners) {
+			l.onTilePick(pos);
 		}
 	}
 }

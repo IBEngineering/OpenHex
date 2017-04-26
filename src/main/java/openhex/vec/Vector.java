@@ -1,5 +1,7 @@
 package openhex.vec;
 
+import java.util.Arrays;
+
 import openhex.util.math.GenericMath;
 import openhex.vec.at.VectorData;
 
@@ -263,39 +265,9 @@ public abstract class Vector<N extends Number> {
 	 * OTHER CRAP
 	 */
 	
-	/**
-	 * For a 2 vectors to be the same,
-	 * they must:
-	 * 1. Have the same amount of dimensions.
-	 * 2. Have the same values
-	 */
-	public boolean equals(Object obj) {
-		//Check if dimensions are the same
-		if(getDimensionsOf(obj) == getDimensionsOf(this)) {
-			return true;
-		}
-		
-		if(obj instanceof Vector) {
-			Vector<?> that = (Vector<?>) obj;
-			
-			//Check if values are identical
-			int dimension = getDimensionsOf(obj);
-			for(int i = 0; i<dimension; i++) {
-				if(that.values[i] != this.values[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		//If nothing, return false
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+	
+	
+	
 
 	@Override
 	public String toString() {
@@ -309,6 +281,32 @@ public abstract class Vector<N extends Number> {
 		
 		r+=']';
 		return r;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(values);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Vector other = (Vector) obj;
+		if (!Arrays.equals(values, other.values)) {
+			return false;
+		}
+		return true;
 	}
 	
 	
