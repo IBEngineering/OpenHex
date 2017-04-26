@@ -3,6 +3,7 @@ package openhex.game;
 import com.simsilica.es.EntityData;
 import com.simsilica.es.base.DefaultEntityData;
 
+import openhex.game.board.Board;
 import openhex.util.DuplicateInstanceException;
 
 /**
@@ -26,7 +27,7 @@ public final class Game implements EntityManager {
 		}
 	}
 	
-	private EntityData tileEntityData;
+	private Board board;
 	private EntityData staticEntityData;
 	private EntityData dynamicEntityData;
 	
@@ -37,14 +38,13 @@ public final class Game implements EntityManager {
 		 */
 		set(this);
 		
-		tileEntityData = new DefaultEntityData();
+		board = new Board();
 		staticEntityData = new DefaultEntityData();
 		dynamicEntityData = new DefaultEntityData();
 	}
 	
-	@Override
-	public EntityData getTileEntityData() {
-		return tileEntityData;
+	public Board getBoard() {
+		return board;
 	}
 
 	@Override

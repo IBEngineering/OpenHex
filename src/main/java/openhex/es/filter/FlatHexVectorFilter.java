@@ -3,7 +3,7 @@ package openhex.es.filter;
 import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityComponent;
 
-import openhex.es.HexTile;
+import openhex.game.board.HexTile;
 import openhex.vec.AxialHexVector;
 
 /**

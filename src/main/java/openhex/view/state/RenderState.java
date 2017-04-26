@@ -17,12 +17,12 @@ import com.simsilica.es.EntityData;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.EntitySet;
 
-import openhex.es.HexTile;
 import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
 import openhex.event.PickingEvent;
 import openhex.game.EntityManager;
 import openhex.game.Game;
+import openhex.game.board.HexTile;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
 
