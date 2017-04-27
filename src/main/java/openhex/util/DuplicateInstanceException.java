@@ -6,7 +6,7 @@ package openhex.util;
  * @author MisterCavespider
  *
  */
-public class DuplicateInstanceException extends RuntimeException {
+public class DuplicateInstanceException extends Exception {
 
 	/**
 	 * generated

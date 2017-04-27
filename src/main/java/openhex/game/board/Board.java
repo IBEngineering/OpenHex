@@ -6,9 +6,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import openhex.vec.fin.VectorAS;
 
 public class Board implements IBoard {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Board.class);
 	
 	private Map<VectorAS, HexTile> tiles;
 	private boolean lock = false;
@@ -44,6 +49,8 @@ public class Board implements IBoard {
 
 	@Override
 	public void lock() {
+		LOG.info("Locking the board...");
+		
 		lock = true;
 		for(BoardLockListener l : lockListeners) {
 			l.onLock(this);
@@ -52,6 +59,8 @@ public class Board implements IBoard {
 
 	@Override
 	public void unlock() {
+		LOG.info("Unlocking the board...");
+		
 		lock = false;
 		for(BoardLockListener l : lockListeners) {
 			l.onUnlock(this);

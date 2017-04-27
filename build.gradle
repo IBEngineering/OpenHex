@@ -39,6 +39,12 @@ dependencies {
     //zay-es
     compile "com.simsilica:zay-es:1.2.1"
 
+	//logging
+	compile 'org.slf4j:slf4j-api:1.7.25'
+	compile 'ch.qos.logback:logback-classic:1.2.3'
+	compile 'ch.qos.logback:logback-core:1.2.3'
+	
+
     runtime project(':assets')
 }
 
@@ -78,8 +84,7 @@ task createDirs << {
 sourceSets {
 	main {
 		java {
-			srcDir 'src/main/java'
-			srcDir 'src/run/java'
+			srcDirs = ['src/main/java', 'src/main/resources', 'src/run/java']
 		}
 	}
 }

@@ -3,6 +3,9 @@ package openhex.es;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Mesh;
@@ -18,6 +21,8 @@ import openhex.view.mesh.HexMesh;
  *
  */
 public class ResourceDescriptor implements EntityComponent {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceDescriptor.class);
 	
 	private static void loadStandardValues(ResourceDescriptor desc) {
 		desc.putResource(ResourceTypes.COLOR,	ColorRGBA.White)
@@ -69,8 +74,7 @@ public class ResourceDescriptor implements EntityComponent {
 			//cast
 			return c.cast(o);
 		} else {
-			//Needs a better logger
-			System.err.println("Can't cast " + o + " to " + c.getName());
+			LOG.warn("Can't cast {} to {}! Returning null", o, c);
 			return null;
 		}
 	}

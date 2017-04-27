@@ -3,6 +3,9 @@ package openhex.view.state;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -33,6 +36,7 @@ import openhex.view.input.PickListener;
 public class RenderState extends BaseAppState implements PickListener, BoardLockListener {
 	
 	public static final long ES_HEXTILE_AND_RES = 0;
+	private static final Logger LOG = LoggerFactory.getLogger(RenderState.class);
 	
 	private Map<VectorAS, Spatial> tileSpatials = new HashMap<>();
 	
@@ -66,13 +70,14 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 	}
 	
 	private void changeColor(HexTile t) {
-		System.out.println("Changing color of " + t);
 		if(tileSpatials.containsKey(t.getPosition())) {
-			System.out.println("Found Spatial");
+			LOG.trace("Found the Spatials for {} to change the color of", t);
+			
 			Geometry geom = (Geometry) tileSpatials.get(t.getPosition());
 			geom.getMaterial().setColor("Color", ColorRGBA.randomColor());
+		} else {
+			LOG.debug("Couldn't find spatial for {} to change the color of", t);
 		}
-		System.out.println("Couldn't find Spatial");
 	}
 	
 	private void position(HexTile t) {
@@ -92,7 +97,7 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 	
 	@Override
 	protected void cleanup(Application app) {
-		
+		//Something should really be here
 	}
 
 	@Override
@@ -103,7 +108,6 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 
 	public Material getMaterial() {
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		//mat.setColor("Color", ColorRGBA.randomColor());
 		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("Textures/Tiles/tiles.jpg"));
 		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		return mat;
@@ -111,8 +115,6 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 
 	@Override
 	public void onTilePick(VectorAS pos) {
-		System.out.println("On pick");
-		
 		HexTile tile = Game.get().getBoard().getTile(pos);
 		if(tile != null) {
 			changeColor(tile);

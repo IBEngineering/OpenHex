@@ -3,6 +3,8 @@ package openhex.view.state;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.LoggerFactory;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.input.InputManager;
@@ -77,7 +79,7 @@ public class InputState extends BaseAppState implements ActionListener {
 	}
 	
 	private void ray() {
-		System.out.println("Raycasting...");
+		LoggerFactory.getLogger(this.getClass()).debug("Raycasting...");
 		
 		Camera cam = getApplication().getCamera();
 		

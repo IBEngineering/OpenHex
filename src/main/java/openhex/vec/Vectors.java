@@ -1,5 +1,8 @@
 package openhex.vec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
@@ -12,6 +15,8 @@ import openhex.vec.fin.VectorAS;
  *
  */
 public class Vectors {
+	
+	private static Logger LOG = LoggerFactory.getLogger(Vectors.class);
 	
 	public static Vector3f toVector3f(Vector2f vec, float y) {
 		return new Vector3f(vec.x, y, vec.y);
@@ -31,12 +36,12 @@ public class Vectors {
 		double r = vec.x * 2d/3d / size;
 		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.z) / size;
 		
-		System.out.println(String.format("UNROUNDED: %f, %f", q,r));
+		LOG.trace("Unrounded: {}, {}", r, q);
 		
 		int rq = (int) Math.round(q);
 		int rr = (int) Math.round(r);
 		
-		System.out.println(String.format("ROUNDED: %d, %d", rq,rr));
+		LOG.trace("Rounded: {}, {}", rr, rq);
 		
 		return new VectorAS(rq, rr, (int)vec.y);
 	}

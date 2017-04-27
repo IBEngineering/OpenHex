@@ -1,0 +1,19 @@
+<configuration>
+
+	<appender name="COLOR" class="ch.qos.logback.core.ConsoleAppender">
+	
+		<withJansi>true</withJansi>
+		
+		<encoder>
+			<pattern>
+				%boldWhite(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %boldCyan(%logger{12}) - %msg%n
+			</pattern>
+		</encoder>
+		
+	</appender>
+	
+	<root level="TRACE">
+		<appender-ref ref="COLOR" />
+	</root>
+	
+</configuration>
