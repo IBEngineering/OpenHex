@@ -3,6 +3,7 @@ package openhex.view.state;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jme3.app.Application;
@@ -16,6 +17,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
+import openhex.util.Notifier;
 import openhex.vec.Vectors;
 import openhex.vec.fin.VectorAS;
 import openhex.view.input.PickListener;
@@ -29,9 +31,11 @@ import openhex.view.input.PickListener;
  * @author MisterCavespider
  *
  */
-public class InputState extends BaseAppState implements ActionListener {
-
+public class InputState extends BaseAppState implements Notifier<PickListener>, ActionListener {
+	
 	public static final String MAPPING_PICK = "InputState.PICK";
+	
+	private static final Logger LOG = LoggerFactory.getLogger(InputState.class);
 	
 	private Set<PickListener> listeners;
 	
@@ -61,13 +65,7 @@ public class InputState extends BaseAppState implements ActionListener {
 	@Override
 	protected void onDisable() {}
 	
-	public void addListener(PickListener listener) {
-		listeners.add(listener);
-	}
 	
-	public boolean isListnening(PickListener listener) {
-		return listeners.contains(listener);
-	}
 	
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
@@ -79,7 +77,7 @@ public class InputState extends BaseAppState implements ActionListener {
 	}
 	
 	private void ray() {
-		LoggerFactory.getLogger(this.getClass()).debug("Raycasting...");
+		LOG.debug("Raycasting...");
 		
 		Camera cam = getApplication().getCamera();
 		
@@ -96,5 +94,20 @@ public class InputState extends BaseAppState implements ActionListener {
 		for(PickListener l : listeners) {
 			l.onTilePick(pos);
 		}
+	}
+	
+	@Override
+	public void addListener(PickListener listener) {
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeListener(PickListener listener) {
+		listeners.remove(listener);
+	}
+
+	@Override
+	public boolean isListening(PickListener listener) {
+		return listeners.contains(listener);
 	}
 }

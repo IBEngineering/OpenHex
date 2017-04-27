@@ -9,22 +9,24 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import openhex.util.MultiNotifier;
 import openhex.vec.fin.VectorAS;
 
-public class Board implements IBoard {
+public class Board implements IBoard, MultiNotifier<BoardListener> {
+	
+	public static final Long LISTENERTYPE_LOCK = 0L;
+	public static final Long LISTENERTYPE_CHANGE = 1L;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Board.class);
 	
 	private Map<VectorAS, HexTile> tiles;
 	private boolean lock = false;
 	
-	private Set<BoardLockListener> lockListeners;
-	private Set<BoardChangeListener> changeListeners;
+	private Map<Long, Set<BoardListener>> listeners;
 	
 	public Board() {
 		tiles = new HashMap<>();
-		lockListeners = new HashSet<>();
-		changeListeners = new HashSet<>();
+		listeners = new HashMap<>();
 	}
 	
 	@Override
@@ -52,8 +54,9 @@ public class Board implements IBoard {
 		LOG.info("Locking the board...");
 		
 		lock = true;
-		for(BoardLockListener l : lockListeners) {
-			l.onLock(this);
+		for(BoardListener l : getSet(LISTENERTYPE_LOCK)) {
+			LOG.info("Notifying {}", l);
+			((BoardLockListener)l).onLock(this);
 		}
 	}
 
@@ -62,8 +65,8 @@ public class Board implements IBoard {
 		LOG.info("Unlocking the board...");
 		
 		lock = false;
-		for(BoardLockListener l : lockListeners) {
-			l.onUnlock(this);
+		for(BoardListener l : getSet(LISTENERTYPE_LOCK)) {
+			((BoardLockListener)l).onUnlock(this);
 		}
 	}
 
@@ -80,30 +83,49 @@ public class Board implements IBoard {
 
 	@Override
 	public void addListener(BoardListener listener) {
-		if(listener instanceof BoardLockListener) {
-			lockListeners.add((BoardLockListener) listener);
-		} else if(listener instanceof BoardChangeListener) {
-			changeListeners.add((BoardChangeListener)listener);
+		Long type = getListenerType(listener);
+		LOG.trace("Adding {} of type {}", listener, type);
+		if(type != -1) {
+			getSet(type).add(listener);
 		}
 	}
 
 	@Override
 	public void removeListener(BoardListener listener) {
-		if(listener instanceof BoardLockListener) {
-			lockListeners.remove((BoardLockListener) listener);
-		} else if(listener instanceof BoardChangeListener) {
-			changeListeners.remove((BoardChangeListener)listener);
+		Long type = getListenerType(listener);
+		if(type != -1) {
+			getSet(type).remove(listener);
 		}
 	}
 
 	@Override
 	public boolean isListening(BoardListener listener) {
-		if(listener instanceof BoardLockListener) {
-			return lockListeners.contains(listener);
-		} else if(listener instanceof BoardChangeListener) {
-			return changeListeners.contains(listener);
-		} else {
-			return false;
+		Long type = getListenerType(listener);
+		if(type != -1) {
+			return getSet(type).contains(listener);
 		}
+		return false;
+	}
+
+	private Set<BoardListener> getSet(Long type) {
+		Set<BoardListener> set = listeners.get(type);
+		if(set == null) {
+			LOG.debug("No set found for {}. Creating new one", type);
+			set = new HashSet<>();
+			listeners.put(type, set);
+		}
+		return set;
+	}
+	
+	@Override
+	public Long getListenerType(BoardListener listener) {
+		if(listener instanceof BoardLockListener) {
+			return LISTENERTYPE_LOCK;
+		}
+		if(listener instanceof BoardChangeListener) {
+			return LISTENERTYPE_CHANGE;
+		}
+		LOG.warn("{} is not supported!", listener);
+		return -1L;
 	}
 }

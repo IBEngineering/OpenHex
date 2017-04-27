@@ -50,7 +50,7 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 
 	@Override
 	public void update(float tpf) {
-		if(!getState(InputState.class).isListnening(this)) {
+		if(!getState(InputState.class).isListening(this)) {
 			getState(InputState.class).addListener(this);
 		}
 	}
