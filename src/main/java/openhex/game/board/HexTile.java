@@ -13,12 +13,16 @@ import openhex.vec.fin.VectorAS;
 public class HexTile implements Ownable {
 	
 	private Owner owner;
+	private HexTile[] neighbours = new HexTile[6];
 	protected VectorAS position;
 	protected ResourceDescriptor resDesc;
 	
 	public HexTile(VectorAS position, ResourceDescriptor resDesc) {
 		this.position = position;
 		this.resDesc = resDesc;
+		for (HexTile tile: neighbours) {
+			tile = null;
+		}
 	}
 	
 	public HexTile() {
@@ -46,7 +50,17 @@ public class HexTile implements Ownable {
 	public void setOwner(Owner owner) {
 		this.owner = owner;
 	}
+
+	public HexTile getNeighbour(int n) {
+		return neighbours[n];
+	}
 	
+	public HexTile[] getNeighbours() {
+		return neighbours;
+	}
 	
+	public void setNeighbour(int n, HexTile t) {
+		neighbours[n] = t;
+	}
 	
 }
