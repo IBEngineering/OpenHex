@@ -14,6 +14,7 @@ import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import openhex.es.ResourceTypes;
@@ -33,16 +34,20 @@ import openhex.view.input.PickListener;
  * @author MisterCavespider
  *
  */
-public class RenderState extends BaseAppState implements PickListener, BoardLockListener {
+public class TileRenderState extends BaseAppState implements PickListener, BoardLockListener {
 	
 	public static final long ES_HEXTILE_AND_RES = 0;
-	private static final Logger LOG = LoggerFactory.getLogger(RenderState.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TileRenderState.class);
 	
 	private Map<VectorAS, Spatial> tileSpatials = new HashMap<>();
+	private Node tileNode;
 	
 	@Override
 	protected void initialize(Application app) {
 		tileSpatials = new HashMap<>();
+		tileNode = new Node("Tile Node");
+		
+		((SimpleApplication)app).getRootNode().attachChild(tileNode);
 		
 		Game.get().getBoard().addListener(this);
 		Game.get().getBoard().lock();
@@ -64,7 +69,7 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 			Material mat = getMaterial();
 			mat.setColor("Color", color);
 			geom.setMaterial(mat);
-			((SimpleApplication)getApplication()).getRootNode().attachChild(geom);
+			tileNode.attachChild(geom);
 			tileSpatials.put(t.getPosition(), geom);
 		}
 	}
@@ -90,14 +95,16 @@ public class RenderState extends BaseAppState implements PickListener, BoardLock
 	private void remove(HexTile t) {
 		if(tileSpatials.containsKey(t.getPosition())) {
 			Spatial s = tileSpatials.get(t.getPosition());
-			((SimpleApplication)getApplication()).getRootNode().detachChild(s);
+			tileNode.detachChild(s);
 			tileSpatials.remove(t.getPosition());
 		}
 	}
 	
 	@Override
 	protected void cleanup(Application app) {
-		//Something should really be here
+		if(tileNode.getChildren().size() > 0) {
+			tileNode.detachAllChildren();
+		}
 	}
 
 	@Override
