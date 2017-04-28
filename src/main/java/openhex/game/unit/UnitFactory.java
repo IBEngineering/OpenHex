@@ -34,6 +34,8 @@ public class UnitFactory {
 		
 		ued.setComponents(id, uid, data, desc);
 		
+		LOG.trace("Created {} with components {}, {}, {}", id, uid.getClass(), data.getClass(), desc.getClass());
+		
 		return id;
 	}
 	
