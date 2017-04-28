@@ -16,7 +16,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.texture.Texture;
 import com.simsilica.es.Entity;
 import com.simsilica.es.EntitySet;
@@ -25,7 +24,6 @@ import openhex.es.Identifier;
 import openhex.es.ResourceDescriptor;
 import openhex.es.ResourceTypes;
 import openhex.game.Game;
-import openhex.game.unit.UnitFactory;
 
 /**
  * Should only be called by {@link RenderState}.
@@ -54,13 +52,23 @@ public class UnitRenderState extends BaseAppState {
 		unitNodes = new HashMap<>();
 		majorNode = new Node("All unit nodes");
 		drawableUnits = Game.get().getUnitEntityData().getEntities(Identifier.class, ResourceDescriptor.class);
+		LOG.trace("size of drawaleUnits: {}", drawableUnits.size());
+		
+		for(Entity e : drawableUnits) {
+			/*
+			 * Everything that existed before the EntitySet
+			 * was created does not count as a change.
+			 * Therefore, it is processed here.
+			 */
+			LOG.trace("drawing {}", e);
+			UUID uuid = e.get(Identifier.class).getId();
+			ResourceDescriptor desc = e.get(ResourceDescriptor.class);
+			
+			createNode(uuid);
+			attModel(uuid, desc);
+		}
 		
 		((SimpleApplication)app).getRootNode().attachChild(majorNode);
-		
-		LOG.trace("Adding a unit...");
-		UnitFactory.createUnit(new Identifier(), UUID.randomUUID(), new ResourceDescriptor(true)
-				.putResource(ResourceTypes.MESH, new Sphere(8, 8, 0.5f))
-				);
 	}
 	
 	@Override
