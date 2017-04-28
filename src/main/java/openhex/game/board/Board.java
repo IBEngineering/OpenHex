@@ -9,10 +9,17 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import openhex.util.ListenerType;
 import openhex.util.MultiNotifier;
 import openhex.vec.fin.VectorAS;
 
 public class Board implements IBoard, MultiNotifier<BoardListener> {
+	
+	public static enum BoardListenerTypes implements ListenerType {
+		LOCK, CHANGE;
+		
+		
+	}
 	
 	public static final Long LISTENERTYPE_LOCK = 0L;
 	public static final Long LISTENERTYPE_CHANGE = 1L;
@@ -22,7 +29,7 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 	private Map<VectorAS, HexTile> tiles;
 	private boolean lock = false;
 	
-	private Map<Long, Set<BoardListener>> listeners;
+	private Map<ListenerType, Set<BoardListener>> listeners;
 	
 	public Board() {
 		tiles = new HashMap<>();
@@ -54,7 +61,7 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 		LOG.info("Locking the board...");
 		
 		lock = true;
-		for(BoardListener l : getSet(LISTENERTYPE_LOCK)) {
+		for(BoardListener l : getSet(BoardListenerTypes.LOCK)) {
 			LOG.info("Notifying {}", l);
 			((BoardLockListener)l).onLock(this);
 		}
@@ -65,7 +72,7 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 		LOG.info("Unlocking the board...");
 		
 		lock = false;
-		for(BoardListener l : getSet(LISTENERTYPE_LOCK)) {
+		for(BoardListener l : getSet(BoardListenerTypes.CHANGE)) {
 			((BoardLockListener)l).onUnlock(this);
 		}
 	}
@@ -83,31 +90,31 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 
 	@Override
 	public void addListener(BoardListener listener) {
-		Long type = getListenerType(listener);
+		ListenerType type = getListenerType(listener);
 		LOG.trace("Adding {} of type {}", listener, type);
-		if(type != -1) {
+		if(type != null) {
 			getSet(type).add(listener);
 		}
 	}
 
 	@Override
 	public void removeListener(BoardListener listener) {
-		Long type = getListenerType(listener);
-		if(type != -1) {
+		ListenerType type = getListenerType(listener);
+		if(type != null) {
 			getSet(type).remove(listener);
 		}
 	}
 
 	@Override
 	public boolean isListening(BoardListener listener) {
-		Long type = getListenerType(listener);
-		if(type != -1) {
+		ListenerType type = getListenerType(listener);
+		if(type != null) {
 			return getSet(type).contains(listener);
 		}
 		return false;
 	}
 
-	private Set<BoardListener> getSet(Long type) {
+	private Set<BoardListener> getSet(ListenerType type) {
 		Set<BoardListener> set = listeners.get(type);
 		if(set == null) {
 			LOG.debug("No set found for {}. Creating new one", type);
@@ -118,14 +125,14 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 	}
 	
 	@Override
-	public Long getListenerType(BoardListener listener) {
+	public ListenerType getListenerType(BoardListener listener) {
 		if(listener instanceof BoardLockListener) {
-			return LISTENERTYPE_LOCK;
+			return BoardListenerTypes.LOCK;
 		}
 		if(listener instanceof BoardChangeListener) {
-			return LISTENERTYPE_CHANGE;
+			return BoardListenerTypes.CHANGE;
 		}
 		LOG.warn("{} is not supported!", listener);
-		return -1L;
+		return null;
 	}
 }
