@@ -29,13 +29,14 @@ public class UnitRenderState extends BaseAppState {
 	/**
 	 * Single node that holds all unitnodes.
 	 */
-	private Node unitsNode;
+	private Node majorNode;
 	
 	private EntitySet drawableUnits;
 	
 	@Override
 	protected void initialize(Application app) {
 		unitNodes = new HashMap<>();
+		majorNode = new Node("All unit nodes");
 		drawableUnits = Game.get().getUnitEntityData().getEntities(Identifier.class, ResourceDescriptor.class);
 	}
 	
@@ -44,10 +45,21 @@ public class UnitRenderState extends BaseAppState {
 		if(drawableUnits.applyChanges()) {
 			for(Entity a : drawableUnits.getAddedEntities()) {
 				UUID uuid = a.get(Identifier.class).getId();
+				ResourceDescriptor desc = a.get(ResourceDescriptor.class);
+				
+				createNode(uuid);
+				
 			}
 		}
 	}
 
+	private void createNode(UUID uuid) {
+		if(!unitNodes.containsKey(uuid)) {
+			Node n = new Node("UnitNode#"+uuid.hashCode());
+			majorNode.attachChild(n);
+		}
+	}
+	
 	@Override
 	protected void cleanup(Application app) {
 		

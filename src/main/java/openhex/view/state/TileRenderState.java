@@ -115,7 +115,7 @@ public class TileRenderState extends BaseAppState implements PickListener, Board
 
 	public Material getMaterial() {
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("Textures/Tiles/tiles.jpg"));
+		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("tiles.JPG"));
 		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		return mat;
 	}
