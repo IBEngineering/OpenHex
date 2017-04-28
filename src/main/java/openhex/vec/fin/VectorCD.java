@@ -10,7 +10,7 @@ import openhex.vec.at.VectorData;
  */
 @VectorData(dimensions = 3)
 public final class VectorCD extends CubeHexVector<Float> {
-	public VectorCD(Float q, Float r, Float s, Float h) {
-		super(q, r, s, h);
+	public VectorCD(Float... values) {
+		super(values);
 	}
 }

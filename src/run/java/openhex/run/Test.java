@@ -14,6 +14,7 @@ import openhex.game.Game;
 import openhex.game.board.HexTile;
 import openhex.game.unit.UnitFactory;
 import openhex.util.DuplicateInstanceException;
+import openhex.vec.fin.VectorAD;
 import openhex.vec.fin.VectorAS;
 import openhex.view.ViewApplication;
 
@@ -24,10 +25,17 @@ public class Test {
 	public static void main(String[] args) {
 		LOG.trace("Starting test...");
 		
-		VectorAS a = new VectorAS(0,0,0);
-		VectorAS b = new VectorAS(0,0,0);
+		VectorAS a = new VectorAS(1,2,3);
+		VectorAS b = new VectorAS(1,3,7);
+		VectorAD c = new VectorAD(0f, 0f, 0f);
 		
-		LOG.info("Is VectorAS {} the same as VectorAS {}? {}", a, b, a.equals(b));
+		LOG.info("{} + {} = {}", a, b, a.add(b));
+		LOG.info("{} + {} = {}", b, a, b.add(a));
+		LOG.info("{} * {} = {}", a, b, a.mult(b));
+		LOG.info("{} + {} = {}", c, b, c.add(b));
+		LOG.info("{} + {} = {}", c, a, c.add(a));
+		LOG.info("{} * {} = {}", a, c, a.mult(c));
+		
 		
 		LOG.trace("Creating game...");
 		Game g;

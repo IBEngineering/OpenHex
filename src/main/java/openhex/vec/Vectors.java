@@ -33,8 +33,8 @@ public class Vectors {
 	public static VectorAS toVectorAS(Vector3f vec, double size) {
 		//see redblobgames
 		//for some reason q and r are not in order here
-		double r = vec.x * 2d/3d / size;
-		double q = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.z) / size;
+		double q = vec.x * 2d/3d / size;
+		double r = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.z) / size;
 		
 		LOG.trace("Unrounded: {}, {}", r, q);
 		
@@ -43,7 +43,7 @@ public class Vectors {
 		
 		LOG.trace("Rounded: {}, {}", rr, rq);
 		
-		return new VectorAS(rq, rr, (int)vec.y);
+		return new VectorAS(rr, rq, (int)vec.y);
 	}
 	
 	public static Vector2f toVector2f(VectorAS vec, double size) {

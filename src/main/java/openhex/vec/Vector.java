@@ -1,5 +1,6 @@
 package openhex.vec;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import openhex.util.math.GenericMath;
@@ -18,6 +19,7 @@ import openhex.vec.at.VectorData;
 @VectorData()	//No dimension, Float
 public abstract class Vector<N extends Number> {
 
+	@Deprecated
 	private static class DefaultVector<DN extends Number> extends Vector<DN> {
 		
 		public DefaultVector(DN... values) {
@@ -107,7 +109,12 @@ public abstract class Vector<N extends Number> {
 			r[i] = GenericMath.genericAdd(nClass, getValues()[i], v.getValues()[i]);
 		}
 		
-		return new DefaultVector<N>(r);
+		try {
+			return this.getClass().getConstructor(values.getClass()).newInstance((Object)r);
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
@@ -160,7 +167,12 @@ public abstract class Vector<N extends Number> {
 			r[i] = GenericMath.genericMult(nClass, getValues()[i], v.getValues()[i]);
 		}
 		
-		return new DefaultVector<N>(r);
+		try {
+			return this.getClass().getConstructor(values.getClass()).newInstance((Object)r);
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
@@ -209,7 +221,12 @@ public abstract class Vector<N extends Number> {
 			r[i] = GenericMath.genericSubtract(nClass, 0, values[i]);	// 0-a  = -a
 		}
 		
-		return new DefaultVector<N>(r);
+		try {
+			return this.getClass().getConstructor(values.getClass()).newInstance((Object)r);
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
@@ -235,7 +252,12 @@ public abstract class Vector<N extends Number> {
 			r[i] = GenericMath.genericDiv(nClass, 1, getValues()[i]);
 		}
 		
-		return new DefaultVector<N>(r);
+		try {
+			return this.getClass().getConstructor(values.getClass()).newInstance((Object)r);
+		} catch (IllegalArgumentException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**

@@ -9,7 +9,7 @@ import openhex.vec.at.VectorData;
  * @param <N>	Number
  */
 @VectorData(dimensions = 3)
-public abstract class AxialHexVector<N extends Number> extends Vector<N> {
+public class AxialHexVector<N extends Number> extends Vector<N> {
 
 	protected N q,r,h;
 	

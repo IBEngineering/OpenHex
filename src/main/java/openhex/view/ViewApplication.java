@@ -1,6 +1,7 @@
 package openhex.view;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.ScreenshotAppState;
 
 import openhex.view.state.InputState;
 import openhex.view.state.RenderState;
@@ -17,7 +18,7 @@ public class ViewApplication extends SimpleApplication {
 		flyCam.setDragToRotate(true);
 		flyCam.setMoveSpeed(65f);
 		
-		stateManager.attachAll(new RenderState(), new InputState());
+		stateManager.attachAll(new RenderState(), new InputState(), new ScreenshotAppState("screenshot.png"));
 	}
 
 }
