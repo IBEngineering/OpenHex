@@ -10,6 +10,6 @@ import com.simsilica.es.EntityData;
 public interface EntityManager {
 
 	public EntityData getStaticEntityData();
-	public EntityData getDynamicEntityData();
+	public EntityData getUnitEntityData();
 	
 }

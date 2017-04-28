@@ -9,6 +9,7 @@ public enum ResourceTypes implements ResourceType {
 	COLOR,
 	MESH,
 	MODEL,
+	SHADER,
 	TEXTURE;
 
 	@Override

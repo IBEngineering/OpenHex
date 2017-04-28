@@ -23,6 +23,10 @@ public final class Game implements EntityManager {
 		return INSTANCE;
 	}
 	
+	public static boolean exists() {
+		return INSTANCE != null;
+	}
+	
 	private static void set(Game g) throws DuplicateInstanceException {
 		if(INSTANCE == null) {
 			INSTANCE = g;
@@ -34,7 +38,7 @@ public final class Game implements EntityManager {
 	
 	private Board board;
 	private EntityData staticEntityData;
-	private EntityData dynamicEntityData;
+	private EntityData unitEntityData;
 	
 	public Game() throws DuplicateInstanceException {
 		/*
@@ -45,7 +49,7 @@ public final class Game implements EntityManager {
 		
 		board = new Board();
 		staticEntityData = new DefaultEntityData();
-		dynamicEntityData = new DefaultEntityData();
+		unitEntityData = new DefaultEntityData();
 	}
 	
 	public Board getBoard() {
@@ -58,8 +62,8 @@ public final class Game implements EntityManager {
 	}
 
 	@Override
-	public EntityData getDynamicEntityData() {
-		return dynamicEntityData;
+	public EntityData getUnitEntityData() {
+		return unitEntityData;
 	}
 	
 	
