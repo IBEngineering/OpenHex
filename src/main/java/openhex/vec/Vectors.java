@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
+import openhex.vec.fin.VectorAD;
 import openhex.vec.fin.VectorAS;
+import openhex.vec.fin.VectorCD;
+import openhex.vec.fin.VectorCS;
 
 /**
  * Conversion singleton for {@link Vector}s.
@@ -57,36 +60,140 @@ public class Vectors {
 		return new Vector3f(plane.x, vec.getH(), plane.y);
 	}
 	
-	/*
-	public static HexVector toHex(Position pos) {
-        HexPosition hpos = new HexPosition(pos.x, pos.y, pos.z);
-        return hpos;
-    }
-    
-    public static Vector2f toVector2f(HexPosition pos, boolean alongXaxis) {
-        float x = 1f * 3f/2f * pos.z;
-        float z = 1f * FastMath.sqrt(3) * (pos.x + pos.z/2f);
-        
-        return new Vector2f(x, z);
-    }
-    
-    public static Vector3f toVector3f(HexPosition pos, boolean alongXaxis) {
-        Vector2f original = toVector2f(pos, alongXaxis);
-        return new Vector3f(original.x, 0, original.y);
-    }
-    
-    public static HexPosition toHex(Vector2f vec) {
-        //See redblobgames
-        double q = (vec.x * 2d/3d / 1d);
-        double r = (-vec.x / 3d + Math.sqrt(3d)/3d * vec.y) / 1d;
-        
-        System.out.println("UNROUNDED: " + q + "," + (-q-r) + "," + r);
-        
-        int rx = (int) Math.round(q);
-        int ry = (int) Math.round(-q-r);
-        int rz = (int) Math.round(r);
-        
-        return new HexPosition(rz, ry, rx);
-    }*/
+	/**
+	 * Converts from VectorAD to VectorAS
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAS toVectorAS(VectorAD vec) {
+		int q = Math.round(vec.getQ());
+		int r = Math.round(vec.getR());
+		int h = Math.round(vec.getH());
+		return new VectorAS(q,r,h);
+	}
 	
+	/**
+	 * Converts from VectorCS to VectorAS
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAS toVectorAS(VectorCS vec) {
+		int q = vec.getQ();
+		int r = vec.getR();
+		int h = vec.getH();
+		return new VectorAS(q,r,h);
+	}
+	
+	/**
+	 * Converts from VectorCD to VectorAS through {@link Vectors#toVectorAS(VectorCS)}
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAS toVectorAS(VectorCD vec) {
+		return toVectorAS(toVectorCS(vec));
+	}
+	
+	/**
+	 * Converts from VectorAS to VectorAD
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAD toVectorAD(VectorAS vec) {
+		float r = (float)vec.getR();
+		float q = (float)vec.getQ();
+		float h = (float)vec.getH();
+		return new VectorAD(r,q,h);
+	}
+	
+	/**
+	 * Converts from VectorCS to VectorAD through {@link Vectors#toVectorAD(VectorCD)}
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAD toVectorAD(VectorCS vec) {
+		return toVectorAD(toVectorCD(vec));
+	}
+	
+	/**
+	 * Converts from VectorCD to VectorAD
+	 * @param vec
+	 * @return
+	 */
+	public static VectorAD toVectorAD(VectorCD vec) {
+		float q = vec.getQ();
+		float r = vec.getR();
+		float h = vec.getH();
+		return new VectorAD(q,r,h);
+	}
+	
+	/**
+	 * Converts from VectorCD to VectorCS
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCS toVectorCS(VectorCD vec) {
+		int q = Math.round(vec.getQ());
+		int r = Math.round(vec.getR());
+		int s = Math.round(vec.getS());
+		int h = Math.round(vec.getH());
+		return new VectorCS(q,r,s,h);
+	}
+	
+	/**
+	 * Converts from VectorAS to VectorCS
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCS toVectorCS(VectorAS vec) {
+		int q = vec.getQ();
+		int r = vec.getR();
+		int s = -q-r;
+		int h = vec.getH();
+		return new VectorCS(q,r,s,h);
+	}
+	
+	/**
+	 * Converts from VectorAD to VectorCS through {@link Vectors#toVectorCS(VectorAD)}
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCS toVectorCS(VectorAD vec) {
+		return toVectorCS(toVectorAS(vec));
+	}
+	
+	/**
+	 * Converts from VectorCS to VectorCD
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCD toVectorCD(VectorCS vec) {
+		VectorCD r = new VectorCD();
+		r.setR((float)vec.getR());
+		r.setQ((float)vec.getQ());
+		r.setS((float)vec.getS());
+		r.setH((float)vec.getH());
+		return r;
+	}
+	
+	/**
+	 * Converts from VectorAS to VectorCD through {@link Vectors#toVectorCD(VectorAS)}
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCD toVectorCD(VectorAS vec) {
+		return toVectorCD(toVectorAD(vec));
+	}
+	
+	/**
+	 * Converts from VectorAD to VectorCD
+	 * @param vec
+	 * @return
+	 */
+	public static VectorCD toVectorCD(VectorAD vec) {
+		float q = vec.getQ();
+		float r = vec.getR();
+		float s = -q-r;
+		float h = vec.getH();
+		return new VectorCD(q,r,s,h);
+	}
 }
