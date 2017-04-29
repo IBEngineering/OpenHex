@@ -66,6 +66,16 @@ public class GenericMath {
 		else							{	return (N)(Double)(a.doubleValue()/b.doubleValue());}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static <N extends Number> N genericAbs(Class<N> nClass, Number a) {
+		if(nClass == Integer.class) 	{	return ((Integer)a>0) ? (N) a : (N)(Number)(-a.intValue());	}
+		else if(nClass == Long.class) 	{	return ((Long)a>0l) ? (N) a : (N)(Number)(-a.longValue());	}
+		else if(nClass == Short.class)	{	return ((Short)a>0) ? (N) a : (N)(Number)(-a.shortValue());	}	//!
+		else if(nClass == Byte.class) 	{	return ((Byte)a>0) ? (N) a : (N)(Number)(-a.byteValue());	}	//!
+		else if(nClass == Float.class)	{	return ((Float)a>0f) ? (N) a : (N)(Number)(-a.floatValue());	}
+		else							{	return ((Double)a>0d) ? (N) a : (N)(Number)(-a.doubleValue());	}
+	}
+	
 	public static <N extends Number> double sum(N... values) {
 		double sum = 0;
 		for (int i = 0; i < values.length; i++) {

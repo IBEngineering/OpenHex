@@ -16,6 +16,7 @@ import openhex.game.unit.UnitFactory;
 import openhex.util.DuplicateInstanceException;
 import openhex.vec.fin.VectorAD;
 import openhex.vec.fin.VectorAS;
+import openhex.vec.fin.VectorCS;
 import openhex.view.ViewApplication;
 
 public class Test {
@@ -30,6 +31,9 @@ public class Test {
 		VectorAD c = new VectorAD(0f, 0f, 0f);
 		VectorAD d = new VectorAD(0f, 1f, 0f);
 		
+		VectorCS e = new VectorCS(0, 0, 0, 0);
+		VectorCS f = new VectorCS(3, 1, -4, 0);
+		
 		LOG.info("{} + {} = {}", a, b, a.add(b));
 		LOG.info("{} + {} = {}", b, a, b.add(a));
 		LOG.info("{} * {} = {}", a, b, a.mult(b));
@@ -38,12 +42,13 @@ public class Test {
 		LOG.info("{} * {} = {}", a, c, a.mult(c));
 		
 		LOG.info("{} -> {} = {}", c, d, c.distance(d));
+		LOG.info("{} -> {} = {}", e, f, e.distanceToTile(f));
 		
 		LOG.trace("Creating game...");
 		Game g;
 		try {
 			g = new Game();
-		} catch (DuplicateInstanceException e) {
+		} catch (DuplicateInstanceException ex) {
 			LOG.error("Duplicate instance of Game! {}", e);
 			LOG.error("How is that even possible?");
 			LOG.error("Exitting application...");

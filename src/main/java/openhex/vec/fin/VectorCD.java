@@ -8,7 +8,7 @@ import openhex.vec.at.VectorData;
  * @author MisterCavespider
  *
  */
-@VectorData(dimensions = 3)
+@VectorData(dimensions = 4)
 public final class VectorCD extends CubeHexVector<Float> {
 	public VectorCD(Float... values) {
 		super(values);

@@ -1,5 +1,7 @@
 package openhex.vec;
 
+import org.slf4j.LoggerFactory;
+
 import openhex.util.math.GenericMath;
 import openhex.vec.at.VectorData;
 
@@ -57,6 +59,15 @@ public abstract class CubeHexVector<N extends Number> extends Vector<N> {
 	protected void validate() {
 		//s = (0-q)-r
 		values[2] = GenericMath.genericSubtract(nClass, GenericMath.genericSubtract(nClass, 0, values[1]), values[2]);
+	}
+	
+	public double distanceToTile(CubeHexVector<?> vec) {
+		double dx = Math.abs(getQ().doubleValue() - vec.getQ().doubleValue());
+		double dy = Math.abs(getS().doubleValue() - vec.getS().doubleValue());
+		double dz = Math.abs(getR().doubleValue() - vec.getR().doubleValue());
+		double result = Math.max(Math.max(dx, dy), dz);
+		LoggerFactory.getLogger(CubeHexVector.class).trace("max({}, {}, {}) = {}", dx, dy, dz, result);
+		return result;
 	}
 	
 	@Override
