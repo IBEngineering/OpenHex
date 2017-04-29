@@ -26,7 +26,7 @@ public class HexTile implements Ownable {
 	}
 	
 	public HexTile() {
-//		this(new VectorAS(0, 0, 0), new ResourceDescriptor(true));
+		this(new VectorAS(0, 0, 0), new ResourceDescriptor(true));
 	}
 
 	public VectorAS getPosition() {
