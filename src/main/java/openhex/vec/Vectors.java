@@ -207,9 +207,9 @@ public class Vectors {
 
 		    };
 	
-	public static ArrayList<VectorAS> getRing(int radius) {
+	public static ArrayList<VectorAS> getRing(VectorAS vec, int radius) {
 		ArrayList<VectorAS> ring = new ArrayList<VectorAS>();
-		VectorAS tmp = new VectorAS(0,0,0);
+		VectorAS tmp = vec;
 
 		for (int t = 0; t < radius; t++) {
 			tmp = (VectorAS) tmp.add(directionsAS[4]);
