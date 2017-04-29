@@ -223,4 +223,8 @@ public class Vectors {
 		}
 		return ring;
 	}
+	
+	public static int getTileDistance(VectorAS a, VectorAS b) {
+		return (int) Vectors.toVectorCD(a).distanceToTile(Vectors.toVectorCD(b));
+	}
 }
