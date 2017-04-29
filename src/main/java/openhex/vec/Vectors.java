@@ -1,11 +1,15 @@
 package openhex.vec;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
+import openhex.es.ResourceDescriptor;
+import openhex.game.board.HexTile;
 import openhex.vec.fin.VectorAD;
 import openhex.vec.fin.VectorAS;
 import openhex.vec.fin.VectorCD;
@@ -195,5 +199,28 @@ public class Vectors {
 		float s = -q-r;
 		float h = vec.getH();
 		return new VectorCD(q,r,s,h);
+	}
+	
+	public static VectorAS[] directionsAS = {
+		    new VectorAS(+1,  0,0), new VectorAS(+1, -1,0), new VectorAS( 0, -1,0),
+		    new VectorAS(-1,  0,0), new VectorAS(-1, +1,0), new VectorAS( 0, +1,0) 
+
+		    };
+	
+	public static ArrayList<VectorAS> getRing(int radius) {
+		ArrayList<VectorAS> ring = new ArrayList<VectorAS>();
+		VectorAS tmp = new VectorAS(0,0,0);
+
+		for (int t = 0; t < radius; t++) {
+			tmp = (VectorAS) tmp.add(directionsAS[4]);
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < radius; j++) {
+				tmp = (VectorAS) tmp.add(directionsAS[i]);
+				ring.add(tmp);
+			}
+		}
+		return ring;
 	}
 }
