@@ -66,6 +66,22 @@ public class GenericMath {
 		else							{	return (N)(Double)(a.doubleValue()/b.doubleValue());}
 	}
 	
+	public static <N extends Number> double sum(N... values) {
+		double sum = 0;
+		for (int i = 0; i < values.length; i++) {
+			sum += values[i].doubleValue();
+		}
+		return sum;
+	}
+	
+	public static <N extends Number> double sqSum(N... values) {
+		double sum = 0;
+		for (int i = 0; i < values.length; i++) {
+			sum += Math.pow(values[i].doubleValue(), 2);
+		}
+		return sum;
+	}
+	
 	/**
 	 * Returns a 'new' nClass.
 	 * Pretty much useless.

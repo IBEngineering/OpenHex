@@ -28,6 +28,7 @@ public class Test {
 		VectorAS a = new VectorAS(1,2,3);
 		VectorAS b = new VectorAS(1,3,7);
 		VectorAD c = new VectorAD(0f, 0f, 0f);
+		VectorAD d = new VectorAD(0f, 1f, 0f);
 		
 		LOG.info("{} + {} = {}", a, b, a.add(b));
 		LOG.info("{} + {} = {}", b, a, b.add(a));
@@ -36,6 +37,7 @@ public class Test {
 		LOG.info("{} + {} = {}", c, a, c.add(a));
 		LOG.info("{} * {} = {}", a, c, a.mult(c));
 		
+		LOG.info("{} -> {} = {}", c, d, c.distance(d));
 		
 		LOG.trace("Creating game...");
 		Game g;

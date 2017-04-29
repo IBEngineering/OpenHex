@@ -272,6 +272,19 @@ public abstract class Vector<N extends Number> {
 		return this;
 	}
 	
+	/**
+	 * Returns distance to another vector.
+	 * Function:
+	 * <code>
+	 * d = sqrt(sum(values²))
+	 * </code>
+	 * @param vec
+	 * @return
+	 */
+	public double distance(Vector<?> vec) {
+		return Math.sqrt(GenericMath.sqSum(vec.getValues()));
+	}
+	
 	/*
 	 * GET AND SET
 	 */
