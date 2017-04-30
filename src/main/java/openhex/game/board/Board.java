@@ -143,7 +143,9 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 		Board b = new Board();
 		
 		for (HexTile tile : tiles.values()) {
-			b.addTile(tile);
+			HexTile t = new HexTile(tile.position, tile.getResourceDescriptor());
+			t.setOwner(tile.getOwner());
+			b.addTile(t);
 		}
 		
 		return b;
