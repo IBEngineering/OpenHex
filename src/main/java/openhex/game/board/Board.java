@@ -135,4 +135,17 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 		LOG.warn("{} is not supported!", listener);
 		return null;
 	}
+	
+	/*
+	 * Returns a duplicate of the board for AI purposes, does NOT copy listeners.
+	 */
+	public Board getDuplicate() {
+		Board b = new Board();
+		
+		for (HexTile tile : tiles.values()) {
+			b.addTile(tile);
+		}
+		
+		return b;
+	}
 }
