@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import openhex.es.ResourceDescriptor;
-import openhex.game.board.HexTile;
 import openhex.vec.fin.VectorAD;
 import openhex.vec.fin.VectorAS;
 import openhex.vec.fin.VectorCD;
@@ -200,6 +198,15 @@ public class Vectors {
 		float h = vec.getH();
 		return new VectorCD(q,r,s,h);
 	}
+	
+	public static final VectorAS[] neighbors = new VectorAS[] {
+			new VectorAS(0, 1, 0),
+			new VectorAS(1, 0, 0),
+			new VectorAS(1, -1, 0),
+			new VectorAS(0, -1, 0),
+			new VectorAS(-1, 0, 0),
+			new VectorAS(-1, 1, 0),
+		};
 	
 	public static VectorAS[] directionsAS = {
 		    new VectorAS(+1,  0,0), new VectorAS(+1, -1,0), new VectorAS( 0, -1,0),

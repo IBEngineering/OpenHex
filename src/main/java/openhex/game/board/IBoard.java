@@ -1,6 +1,7 @@
 package openhex.game.board;
 
 import java.util.Collection;
+import java.util.Map;
 
 import openhex.vec.fin.VectorAS;
 
@@ -13,6 +14,7 @@ public interface IBoard {
 	public HexTile getTile(VectorAS pos);
 	public void removeTile(VectorAS pos);
 	public Collection<HexTile> getTiles();
+	public Map<VectorAS, HexTile> getTileMap();
 	
 	/*
 	 * Lock

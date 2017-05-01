@@ -150,4 +150,9 @@ public class Board implements IBoard, MultiNotifier<BoardListener> {
 		
 		return b;
 	}
+
+	@Override
+	public Map<VectorAS, HexTile> getTileMap() {
+		return tiles;
+	}
 }

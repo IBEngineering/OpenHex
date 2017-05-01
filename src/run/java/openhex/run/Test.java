@@ -62,12 +62,12 @@ public class Test {
 		
 		LOG.trace("Adding Tiles to game...");
 		g.getBoard().addTile(new HexTile(new VectorAS(0, 0, 0), new ResourceDescriptor(true)));
-		g.getBoard().addTile(new HexTile(new VectorAS(1, 0, 0), new ResourceDescriptor(true)));
+		g.getBoard().addTile(new HexTile(new VectorAS(1, 0, 1), new ResourceDescriptor(true)));
 		g.getBoard().addTile(new HexTile(new VectorAS(0, 1, 0), new ResourceDescriptor(true)));
 		g.getBoard().addTile(new HexTile(new VectorAS(-1, 0, 0), new ResourceDescriptor(true)));
-		g.getBoard().addTile(new HexTile(new VectorAS(0, -1, 0), new ResourceDescriptor(true)));
+		g.getBoard().addTile(new HexTile(new VectorAS(0, -1, 1), new ResourceDescriptor(true)));
 		g.getBoard().addTile(new HexTile(new VectorAS(1, -1, 0), new ResourceDescriptor(true)));
-		g.getBoard().addTile(new HexTile(new VectorAS(-1, 1, 0), new ResourceDescriptor(true)));
+		g.getBoard().addTile(new HexTile(new VectorAS(-1, 1, 1), new ResourceDescriptor(true)));
 		
 		LOG.trace("Creating Application...");
 		ViewApplication vapp = new ViewApplication();

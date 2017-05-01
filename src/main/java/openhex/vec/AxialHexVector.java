@@ -10,14 +10,9 @@ import openhex.vec.at.VectorData;
  */
 @VectorData(dimensions = 3)
 public class AxialHexVector<N extends Number> extends Vector<N> {
-
-	protected N q,r,h;
 	
 	public AxialHexVector(N... values) {
 		super(values);
-		this.q = values[0];
-		this.r = values[1];
-		this.h = values[2];
 	}
 	
 	public N getQ() {
@@ -46,10 +41,18 @@ public class AxialHexVector<N extends Number> extends Vector<N> {
 
 	@Override
 	protected N[] getValues() {
-		values[0] = q;
-		values[1] = r;
-		values[2] = h;
 		return values;
 	}
+
+	@Override
+	public int hashCode() {
+		int prime = 29;
+		int result = 1;
+		result = prime * result + getQ().intValue();
+		result = prime * result + getR().intValue();
+		return result;
+	}
+	
+	
 	
 }
