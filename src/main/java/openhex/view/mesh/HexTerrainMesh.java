@@ -27,10 +27,10 @@ public class HexTerrainMesh extends Mesh {
 	
 	public int vPos, iPos = 0;
 	
-	public Vector3f[] vertices = new Vector3f[1024];
-	public Integer[] indices = new Integer[1024];
-	public ColorRGBA[] colors = new ColorRGBA[1024];
-	public Vector2f[][] texCoords = new Vector2f[8][1024];
+	public List<Vector3f> vertices = new ArrayList<>();
+	public List<Integer> indices = new ArrayList<>();
+	public List<ColorRGBA> colors = new ArrayList<>();
+	public List<Vector2f> texCoord = new ArrayList<>();	//texCoord1
 
 	private Map<VectorAS, HexTile> tilemap;
 	private List<HexTile> tiles;
@@ -65,10 +65,10 @@ public class HexTerrainMesh extends Mesh {
 		System.out.println(vertices);
 		System.out.println(indices);
 
-		setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(trimArray(vertices)));
-		setBuffer(Type.Index, 3, BufferUtils.createIntBuffer(toPrimitve(trimArray(indices))));
-		setBuffer(Type.Color, 4, BufferUtils.createFloatBuffer(colors));
-		setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(texCoords[0]));
+		setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(vertices.toArray(new Vector3f[vertices.size()])));
+		setBuffer(Type.Index, 3, BufferUtils.createIntBuffer(toPrimitve(indices.toArray(new Integer[indices.size()]))));
+		setBuffer(Type.Color, 4, BufferUtils.createFloatBuffer(colors.toArray(new ColorRGBA[colors.size()])));
+		setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(texCoord.toArray(new Vector2f[texCoord.size()])));
 		
 		updateBound();
 	}
@@ -135,40 +135,44 @@ public class HexTerrainMesh extends Mesh {
 	
 	public void drawHexagon(VectorAS pos) {
 		for(int i = 0 ; i < 6 ; i ++ ) {
-			vertices[vPos + i] = getCorner(i).add(Vectors.toVector3f(pos, 1f).multLocal(1, heightScale, 1));
-			colors[vPos + i] = ColorRGBA.Red;
+			vertices.add( getCorner(i).add(toVector3f(pos)) );
+			colors.add(ColorRGBA.Red);
 		}
 		
 		drawUvMapping(0);
 		
 		int s = vPos;
-		indices[iPos] = s;
-		indices[iPos+1] = s+1;
-		indices[iPos+2] = s+2;
-		indices[iPos+3] = s;
-		indices[iPos+4] = s+2;
-		indices[iPos+5] = s+5;
-		indices[iPos+6] = s+2;
-		indices[iPos+7] = s+3;
-		indices[iPos+8] = s+5;
-		indices[iPos+9] = s+3;
-		indices[iPos+10] = s+4;
-		indices[iPos+11] = s+5;
+		
+		indices.add(s);
+		indices.add(s+1);
+		indices.add(s+2);
+		
+		indices.add(s);
+		indices.add(s+2);
+		indices.add(s+5);
+		
+		indices.add(s+2);
+		indices.add(s+3);
+		indices.add(s+5);
+		
+		indices.add(s+3);
+		indices.add(s+4);
+		indices.add(s+5);
 		
 		vPos += 6;
 		iPos += 12;
 	}
 	
-	public void drawUvMapping(int buffer) {
-		texCoords[buffer][vPos] = new Vector2f(.75f, 0f);
-		texCoords[buffer][vPos+1] = new Vector2f(1f, .5f);
-		texCoords[buffer][vPos+2] = new Vector2f(.75f, 1f);
-		texCoords[buffer][vPos+3] = new Vector2f(.25f, 1f);
-		texCoords[buffer][vPos+4] = new Vector2f(0f, .5f);
-		texCoords[buffer][vPos+5] = new Vector2f(.25f, 0f);
+	private void drawUvMapping(int buffer) {
+		texCoord.add(new Vector2f(.75f, 0f));
+		texCoord.add(new Vector2f(1f, .5f));
+		texCoord.add(new Vector2f(.75f, 1f));
+		texCoord.add(new Vector2f(.25f, 1f));
+		texCoord.add(new Vector2f(0f, .5f));
+		texCoord.add(new Vector2f(.25f, 0f));
 	}
 	
-	public void drawWall(VectorAS t, VectorAS u, int n) {
+	private void drawWall(VectorAS t, VectorAS u, int n) {
 		if(Math.abs(t.getH() - u.getH()) > heightTreshhold) {
 			Vector3f a = getVertexForNeighbor(n+5, t);
 			Vector3f b = getVertexForNeighbor(n, t);
@@ -178,60 +182,47 @@ public class HexTerrainMesh extends Mesh {
 		}
 	}
 	
-	public void drawWall(Vector3f a, Vector3f b, Vector3f c, Vector3f d) {
-		vertices[vPos] = a;
-		vertices[vPos+1] = b;
-		vertices[vPos+2] = c;
-		vertices[vPos+3] = d;
+	private void drawWall(Vector3f a, Vector3f b, Vector3f c, Vector3f d) {
+		vertices.add(a);
+		vertices.add(b);
+		vertices.add(c);
+		vertices.add(d);
 		
-		colors[vPos] = ColorRGBA.Blue;
-		colors[vPos+1] = ColorRGBA.Blue;
-		colors[vPos+2] = ColorRGBA.Blue;
-		colors[vPos+3] = ColorRGBA.Blue;
+		colors.add(ColorRGBA.Blue);
+		colors.add(ColorRGBA.Blue);
+		colors.add(ColorRGBA.Blue);
+		colors.add(ColorRGBA.Blue);
 		
-		indices[iPos] = vPos;
-		indices[iPos+1] = vPos+1;
-		indices[iPos+2] = vPos+2;
+		texCoord.add(new Vector2f(0,0));
+		texCoord.add(new Vector2f(1,0));
+		texCoord.add(new Vector2f(0,1));
+		texCoord.add(new Vector2f(1,1));
 		
-		indices[iPos+3] = vPos;
-		indices[iPos+4] = vPos+2;
-		indices[iPos+5] = vPos+3;
+		indices.add(vPos);
+		indices.add(vPos+1);
+		indices.add(vPos+2);
+		
+		indices.add(vPos);
+		indices.add(vPos+2);
+		indices.add(vPos+3);
 		
 		vPos += 4;
 		iPos += 6;
 	}
 	
-	public Vector3f getVertexForNeighbor(int n, VectorAS pos) {
+	private Vector3f getVertexForNeighbor(int n, VectorAS pos) {
 		int i = (6-n)%6;
-		return getCorner(i).add(Vectors.toVector3f(pos, 1f).multLocal(1, heightScale, 1));
+		return getCorner(i).add(toVector3f(pos));
 	}
 	
-	public Vector3f[] getVerticesOfHexagon(VectorAS pos) {
-		Vector3f[] arr = new Vector3f[6];
-		for (int i = 0; i < arr.length; i++) {
-			arr[i] = getCorner(i).add(Vectors.toVector3f(pos, 1f).multLocal(1, heightScale, 1));
-		}
-		return arr;
-	}
-	
-	public Vector3f getCorner(int i) {
+	private Vector3f getCorner(int i) {
 		float angle = 2*FastMath.PI/6f * i + 2*FastMath.PI/12f;
 		float x = FastMath.sin(angle);
 		float z = FastMath.cos(angle);
 		return new Vector3f(x,i*cornerScale,z);
 	}
 	
-	public int getIndexOf(HexTile t) {
-		if(t == null) {
-			return -1;
-		}
-		for (int i = 0; i < tiles.size(); i++) {
-			HexTile tile = tiles.get(i);
-			if(t.getPosition().equals(tile.getPosition())) {
-				return i;
-			}
-		}
-		return -1;
+	private Vector3f toVector3f(VectorAS pos) {
+		return Vectors.toVector3f(pos, 1f).multLocal(1, heightScale, 1);
 	}
-	
 }

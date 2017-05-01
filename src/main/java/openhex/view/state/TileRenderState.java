@@ -54,8 +54,8 @@ public class TileRenderState extends BaseAppState implements PickListener, Board
 	}
 
 	private void draw(Map<VectorAS, HexTile> tilemap) {
-		HexTerrainMesh htm = new HexTerrainMesh();
 		long m1 = System.currentTimeMillis();
+		HexTerrainMesh htm = new HexTerrainMesh();
 		htm.bake(Game.get().getBoard().getTileMap());
 		long m2 = System.currentTimeMillis();
 		
@@ -84,13 +84,6 @@ public class TileRenderState extends BaseAppState implements PickListener, Board
 
 	@Override
 	protected void onDisable() {}
-
-	public Material getMaterial() {
-		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("tiles.JPG"));
-		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
-		return mat;
-	}
 
 	@Override
 	public void onTilePick(VectorAS pos) {
