@@ -64,7 +64,7 @@ public class TileRenderState extends BaseAppState implements PickListener, Board
 		Geometry g = new Geometry("Terrain", htm);
 		Material mat = new Material(getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setBoolean("VertexColor", false);
-		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("tiles.JPG"));
+		mat.setTexture("ColorMap", getApplication().getAssetManager().loadTexture("desertHex.gif"));
 		mat.getAdditionalRenderState().setWireframe(false);
 		mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
 		g.setMaterial(mat);
